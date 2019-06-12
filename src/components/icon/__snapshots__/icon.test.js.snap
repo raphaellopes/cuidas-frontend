@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Icon /> Should change the color when prop is set 1`] = `
+<i
+  className="fa fa-check sc-bdVaJa fQTDTn"
+  color="primary"
+/>
+`;
+
+exports[`<Icon /> Should render the component 1`] = `
+<i
+  className="fa fa-check sc-bdVaJa jToUlD"
+/>
+`;

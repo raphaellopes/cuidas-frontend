@@ -1,5 +1,6 @@
 // vendors
 import { createGlobalStyle } from 'styled-components';
+import 'font-awesome/css/font-awesome.css';
 
 // locals
 import colors from './colors';

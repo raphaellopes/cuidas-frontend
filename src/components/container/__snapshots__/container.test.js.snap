@@ -1,0 +1,20 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Container /> Should render the component 1`] = `
+<div
+  className="sc-bwzfXH fEYYaN"
+>
+  <header
+    className="sc-htpNat dplynj"
+  >
+    <img
+      alt="Cuidas"
+      className="sc-bdVaJa katCQl"
+      src="logo.svg"
+    />
+  </header>
+  <div>
+    My children text
+  </div>
+</div>
+`;
