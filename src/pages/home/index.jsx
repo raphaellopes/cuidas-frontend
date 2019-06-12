@@ -1,13 +1,21 @@
 // vendors
-import React, { Fragment } from 'react';
+import React from 'react';
+import { Link } from 'react-router-dom';
 
 // locals
-import Logo from '../../components/logo';
+import Container from '../../components/container';
 
 const Home = () => (
-  <Fragment>
-    <Logo />
-  </Fragment>
+  <Container>
+    <p>Selecione a página que deseja visualizar:</p>
+    <Link to="/agendamentos">
+      Agendamentos
+    </Link>
+    <br />
+    <Link to="/administracao">
+      Administração
+    </Link>
+  </Container>
 );
 
 export default Home;
