@@ -1,5 +1,14 @@
-import React from 'react';
+// vendors
+import React, { Fragment } from 'react';
 
-const App = () => <h1>My base app page</h1>;
+// locals
+import GlobalStyle from '../../styles/global';
+
+const App = () => (
+  <Fragment>
+    <GlobalStyle />
+    <h1>My base app page</h1>
+  </Fragment>
+);
 
 export default App;
