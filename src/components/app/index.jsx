@@ -3,11 +3,12 @@ import React, { Fragment } from 'react';
 
 // locals
 import GlobalStyle from '../../styles/global';
+import Routes from '../../routes';
 
 const App = () => (
   <Fragment>
     <GlobalStyle />
-    <h1>My base app page</h1>
+    <Routes />
   </Fragment>
 );
 
