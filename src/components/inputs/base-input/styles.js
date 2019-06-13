@@ -12,5 +12,5 @@ export const InputStyle = styled.input`
   color: ${props => (
     props.color ? colors[props.color] : 'inherit'
   )};
-  padding: ${metrics.basePadding / 3}px;
+  padding: ${metrics.basePadding / 3}px 0;
 `;

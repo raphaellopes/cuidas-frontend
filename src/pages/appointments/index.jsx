@@ -6,6 +6,7 @@ import Container from '../../components/container';
 import Form from '../../components/form';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
+import { PrimaryTitle } from '../../components/titles';
 import { FormGroup } from './styles';
 
 export default class Appointments extends Component {
@@ -89,6 +90,7 @@ export default class Appointments extends Component {
   render() {
     return (
       <Container>
+        <PrimaryTitle>Agendamentos</PrimaryTitle>
         {this.renderEmailForm()}
         {this.renderSignInForm()}
       </Container>

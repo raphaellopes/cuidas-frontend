@@ -2,7 +2,7 @@
 
 exports[`<PrimaryInput /> Should render the component 1`] = `
 <input
-  className="sc-bdVaJa kQgzcA"
+  className="sc-bdVaJa htCbLN"
   color="dark"
   type="text"
 >

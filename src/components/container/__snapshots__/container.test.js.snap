@@ -2,7 +2,7 @@
 
 exports[`<Container /> Should render the component 1`] = `
 <div
-  className="sc-bwzfXH fEYYaN"
+  className="sc-bwzfXH ZoqEH"
 >
   <header
     className="sc-htpNat dplynj"

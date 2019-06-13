@@ -2,14 +2,14 @@
 
 exports[`<BaseInput /> Should change the borderColor when prop is set 1`] = `
 <input
-  className="sc-bdVaJa faCClo"
+  className="sc-bdVaJa hyNoUk"
   type="text"
 />
 `;
 
 exports[`<BaseInput /> Should change the color when prop is set 1`] = `
 <input
-  className="sc-bdVaJa jkdOAU"
+  className="sc-bdVaJa bNCxGc"
   color="primary"
   type="text"
 />
@@ -17,7 +17,7 @@ exports[`<BaseInput /> Should change the color when prop is set 1`] = `
 
 exports[`<BaseInput /> Should render the component 1`] = `
 <input
-  className="sc-bdVaJa kdsZqN"
+  className="sc-bdVaJa dmWOiu"
   type="text"
 />
 `;
