@@ -26,4 +26,10 @@ describe('<BaseInput />', () => {
     const tree = component(props).toJSON();
     expect(tree).toMatchSnapshot();
   });
+
+  test('Should change change the borderColor and color when error is set', () => {
+    const props = { error: true };
+    const tree = component(props).toJSON();
+    expect(tree).toMatchSnapshot();
+  });
 });

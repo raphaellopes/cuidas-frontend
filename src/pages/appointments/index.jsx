@@ -9,7 +9,7 @@ import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
 import {
-  RadioGroup, FormGroup, Description, Section, PersonalData,
+  ErrorBox, RadioGroup, FormGroup, Description, Section, PersonalData,
 } from './styles';
 
 export default class Appointments extends Component {
@@ -19,6 +19,10 @@ export default class Appointments extends Component {
     phone: '',
     date: new Date(),
     hour: '',
+
+    errorEmail: false,
+    errorName: false,
+    errorPhone: false,
   };
 
   // getters and setters
@@ -39,17 +43,56 @@ export default class Appointments extends Component {
     this.setState({ phone });
   }
 
+  get errorEmail() {
+    const { errorEmail } = this.state;
+    return errorEmail;
+  }
+
+  set errorEmail(errorEmail) {
+    this.setState({ errorEmail });
+  }
+
+  get errorName() {
+    const { errorName } = this.state;
+    return errorName;
+  }
+
+  set errorName(errorName) {
+    this.setState({ errorName });
+  }
+
+  get errorPhone() {
+    const { errorPhone } = this.state;
+    return errorPhone;
+  }
+
+  set errorPhone(errorPhone) {
+    this.setState({ errorPhone });
+  }
+
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
 
-    console.log('Submit check email!', this.email);
+    if (this.email) {
+      console.log('Submit check email!', this.email);
+    } else {
+      this.errorEmail = true;
+    }
   }
 
   handleSignIn = (e) => {
     e.preventDefault();
 
     const { name, phone, email } = this.state;
+
+    if (!name) {
+      this.errorName = true;
+    }
+
+    if (!phone) {
+      this.errorPhone = true;
+    }
 
     console.log('Submit signIn!', { name, phone, email });
   }
@@ -60,7 +103,7 @@ export default class Appointments extends Component {
     const { date, hour } = this.state;
 
     console.log('Submit signIn!', { date, hour });
-  }
+  };
 
   // renders
   renderEmailForm() {
@@ -69,7 +112,11 @@ export default class Appointments extends Component {
         <Form onSubmit={this.handleCheckEmail} method="post">
           <FormGroup>
             <PrimaryInput
-              onChange={(e) => { this.email = e.target.value; }}
+              onChange={(e) => {
+                this.errorEmail = false;
+                this.email = e.target.value;
+              }}
+              error={this.errorEmail}
               placeholder="Digite seu email *"
               type="email"
             />
@@ -87,14 +134,22 @@ export default class Appointments extends Component {
           <SecondaryTitle>Complete seu cadastro</SecondaryTitle>
           <FormGroup>
             <PrimaryInput
-              onChange={(e) => { this.name = e.target.value; }}
+              onChange={(e) => {
+                this.errorName = false;
+                this.name = e.target.value;
+              }}
+              error={this.errorName}
               placeholder="Digite seu nome *"
               type="text"
             />
           </FormGroup>
           <FormGroup>
             <PrimaryInput
-              onChange={(e) => { this.phone = e.target.value; }}
+              onChange={(e) => {
+                this.errorPhone = false;
+                this.phone = e.target.value;
+              }}
+              error={this.errorPhone}
               placeholder="Digite seu telefone *"
               type="number"
             />
@@ -187,6 +242,14 @@ export default class Appointments extends Component {
     );
   }
 
+  renderBoxError() {
+    return (this.errorEmail || this.errorName || this.errorPhone) && (
+      <ErrorBox>
+        Verifique as informações
+      </ErrorBox>
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -197,6 +260,7 @@ export default class Appointments extends Component {
           informar seu email, você deverá completar o cadastro. Não se preocupe,
           pois será bem rápido :)
         </Description>
+        {this.renderBoxError()}
         {this.renderEmailForm()}
         {this.renderSignInForm()}
         {this.renderPersonalData()}

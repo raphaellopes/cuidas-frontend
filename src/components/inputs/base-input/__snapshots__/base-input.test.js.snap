@@ -1,5 +1,12 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`<BaseInput /> Should change change the borderColor and color when error is set 1`] = `
+<input
+  className="sc-bdVaJa dUGqJS"
+  type="text"
+/>
+`;
+
 exports[`<BaseInput /> Should change the borderColor when prop is set 1`] = `
 <input
   className="sc-bdVaJa hyNoUk"
