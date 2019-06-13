@@ -10,8 +10,8 @@ export const ContainerStyle = styled.div`
   padding: ${metrics.basePadding}px;
   box-shadow: 0 0 5px ${colors.darkTransparent};
 
-  @media (min-width: 960px) {
-    max-width: 960px;
+  @media (min-width: 330px) {
+    max-width: 330px;
     margin: ${metrics.baseMargin}px auto;
   }
 `;
