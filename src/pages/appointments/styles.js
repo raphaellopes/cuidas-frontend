@@ -19,6 +19,11 @@ export const Description = styled.p`
   margin-bottom: ${metrics.baseMargin}px;
 `;
 
-export const Section = styled.div`
+export const Section = styled.section`
   margin-bottom: ${metrics.baseMargin * 3}px;
+`;
+
+export const PersonalData = styled.div`
+  border-bottom: 1px solid ${colors.light};
+  padding-bottom: ${metrics.basePadding}px;
 `;

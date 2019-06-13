@@ -1,5 +1,5 @@
 // vendors
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 
 // locals
 import Container from '../../components/container';
@@ -7,7 +7,9 @@ import Form from '../../components/form';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
-import { FormGroup, Description, Section } from './styles';
+import {
+  FormGroup, Description, Section, PersonalData,
+} from './styles';
 
 export default class Appointments extends Component {
   state = {
@@ -92,6 +94,48 @@ export default class Appointments extends Component {
     );
   }
 
+  renderPersonalData() {
+    return (
+      <Section>
+        <PersonalData>
+          <SecondaryTitle>Dados pessoais</SecondaryTitle>
+          <p>
+            <strong>Nome:</strong> Fulano de tal
+          </p>
+          <p>
+            <strong>email:</strong> some@email.com
+          </p>
+          <p>
+            <strong>Telefone:</strong> 11 1234-56789
+          </p>
+        </PersonalData>
+      </Section>
+    );
+  }
+
+  renderAppointments() {
+    return (
+      <Fragment>
+        <Section>
+          <Form onSubmit={this.handleAppointment} method="post">
+            <SecondaryTitle>Agendar consulta</SecondaryTitle>
+            <FormGroup>
+            data
+            </FormGroup>
+            <FormGroup>
+            hora
+            </FormGroup>
+            <PrimaryButton type="submit">ok</PrimaryButton>
+          </Form>
+        </Section>
+        <Section>
+          <SecondaryTitle>Consultas agendadas</SecondaryTitle>
+          <p>Não existem consultas agendadas</p>
+        </Section>
+      </Fragment>
+    );
+  }
+
   render() {
     return (
       <Container>
@@ -104,6 +148,8 @@ export default class Appointments extends Component {
         </Description>
         {this.renderEmailForm()}
         {this.renderSignInForm()}
+        {this.renderPersonalData()}
+        {this.renderAppointments()}
       </Container>
     );
   }
