@@ -6,6 +6,7 @@ import Container from '../../components/container';
 import Form from '../../components/form';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
+import { FormGroup } from './styles';
 
 export default class Appointments extends Component {
   state = {
@@ -51,11 +52,13 @@ export default class Appointments extends Component {
   renderEmailForm() {
     return (
       <Form onSubmit={this.handleCheckEmail} method="post">
-        <PrimaryInput
-          onChange={(e) => { this.email = e.target.value; }}
-          placeholder="Digite seu email *"
-          type="email"
-        />
+        <FormGroup>
+          <PrimaryInput
+            onChange={(e) => { this.email = e.target.value; }}
+            placeholder="Digite seu email *"
+            type="email"
+          />
+        </FormGroup>
         <PrimaryButton type="submit">ok</PrimaryButton>
       </Form>
     );
@@ -64,16 +67,20 @@ export default class Appointments extends Component {
   renderSignInForm() {
     return (
       <Form onSubmit={this.handleSignIn} method="post">
-        <PrimaryInput
-          onChange={(e) => { this.name = e.target.value; }}
-          placeholder="Digite seu nome *"
-          type="text"
-        />
-        <PrimaryInput
-          onChange={(e) => { this.phone = e.target.value; }}
-          placeholder="Digite seu telefone *"
-          type="number"
-        />
+        <FormGroup>
+          <PrimaryInput
+            onChange={(e) => { this.name = e.target.value; }}
+            placeholder="Digite seu nome *"
+            type="text"
+          />
+        </FormGroup>
+        <FormGroup>
+          <PrimaryInput
+            onChange={(e) => { this.phone = e.target.value; }}
+            placeholder="Digite seu telefone *"
+            type="number"
+          />
+        </FormGroup>
         <PrimaryButton type="submit">ok</PrimaryButton>
       </Form>
     );
