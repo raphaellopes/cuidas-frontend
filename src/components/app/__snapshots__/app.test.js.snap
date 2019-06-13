@@ -1,0 +1,49 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<App /> Should render the component 1`] = `
+<div
+  className="sc-bwzfXH fEYYaN"
+>
+  <header
+    className="sc-htpNat dplynj"
+  >
+    <img
+      alt="Cuidas"
+      className="sc-bdVaJa katCQl"
+      src="logo.svg"
+    />
+  </header>
+  <div>
+    <div
+      className="sc-ifAKCX fVKAHz"
+    >
+      <p>
+        Selecione a página que deseja visualizar:
+      </p>
+      <div
+        className="sc-EHOje fCSTCe"
+      >
+        <a
+          href="/agendamentos"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-calendar sc-bxivhb kaPDeN"
+          />
+          Agendamentos
+        </a>
+        <br />
+        <a
+          href="/administracao"
+          onClick={[Function]}
+        >
+          <i
+            className="fa fa-user-md sc-bxivhb kaPDeN"
+          />
+          Administração
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+`;
