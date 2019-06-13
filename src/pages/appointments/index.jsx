@@ -4,6 +4,7 @@ import React, { Component, Fragment } from 'react';
 // locals
 import Container from '../../components/container';
 import Form from '../../components/form';
+import Calendar from '../../components/calendar';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
@@ -16,6 +17,7 @@ export default class Appointments extends Component {
     email: '',
     name: '',
     phone: '',
+    date: new Date(),
   };
 
   // getters and setters
@@ -49,6 +51,14 @@ export default class Appointments extends Component {
     const { name, phone, email } = this.state;
 
     console.log('Submit signIn!', { name, phone, email });
+  }
+
+  handleAppointment = (e) => {
+    e.preventDefault();
+
+    const { date } = this.state;
+
+    console.log('Submit signIn!', { date });
   }
 
   // renders
@@ -114,13 +124,32 @@ export default class Appointments extends Component {
   }
 
   renderAppointments() {
+    const { date } = this.state;
+
     return (
       <Fragment>
         <Section>
           <Form onSubmit={this.handleAppointment} method="post">
             <SecondaryTitle>Agendar consulta</SecondaryTitle>
             <FormGroup>
-            data
+              <Calendar
+                value={date}
+                onChange={(calendarDate) => {
+                  this.setState({ date: calendarDate[0] });
+                }}
+                options={{
+                  minDate: 'today',
+                  dateFormat: 'd/m/Y',
+                  disable: [
+                    function (calendarDate) {
+                      return (
+                        calendarDate.getDay() === 0
+                        || calendarDate.getDay() === 6
+                      );
+                    },
+                  ],
+                }}
+              />
             </FormGroup>
             <FormGroup>
             hora
