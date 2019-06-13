@@ -9,7 +9,7 @@ import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
 import {
-  FormGroup, Description, Section, PersonalData,
+  RadioGroup, FormGroup, Description, Section, PersonalData,
 } from './styles';
 
 export default class Appointments extends Component {
@@ -18,6 +18,7 @@ export default class Appointments extends Component {
     name: '',
     phone: '',
     date: new Date(),
+    hour: '',
   };
 
   // getters and setters
@@ -56,9 +57,9 @@ export default class Appointments extends Component {
   handleAppointment = (e) => {
     e.preventDefault();
 
-    const { date } = this.state;
+    const { date, hour } = this.state;
 
-    console.log('Submit signIn!', { date });
+    console.log('Submit signIn!', { date, hour });
   }
 
   // renders
@@ -126,6 +127,11 @@ export default class Appointments extends Component {
   renderAppointments() {
     const { date } = this.state;
 
+    const hours = [
+      '08:00',
+      '09:00',
+    ];
+
     return (
       <Fragment>
         <Section>
@@ -151,9 +157,25 @@ export default class Appointments extends Component {
                 }}
               />
             </FormGroup>
-            <FormGroup>
-            hora
-            </FormGroup>
+            <SecondaryTitle as="h3">Horários disponíveis</SecondaryTitle>
+            {hours.map((h) => {
+              const id = `hour-${h.split(':')[0]}`;
+
+              return (
+                <RadioGroup key={`radio-${id}`}>
+                  <input
+                    id={id}
+                    type="radio"
+                    name="hour"
+                    value={h}
+                    onChange={(e) => {
+                      this.setState({ hour: e.target.value });
+                    }}
+                  />
+                  <label htmlFor={id}>{h}</label>
+                </RadioGroup>
+              );
+            })}
             <PrimaryButton type="submit">ok</PrimaryButton>
           </Form>
         </Section>

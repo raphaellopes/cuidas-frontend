@@ -14,6 +14,18 @@ export const FormGroup = styled.div`
   }
 `;
 
+export const RadioGroup = styled.div`
+  margin-bottom: ${metrics.baseMargin}px;
+  display: flex;
+  align-items: center;
+  height: 32px;
+
+  label {
+    flex: 1;
+    margin-left: ${metrics.baseMargin}px;
+  }
+`;
+
 export const Description = styled.p`
   color: ${colors.regular};
   margin-bottom: ${metrics.baseMargin}px;
