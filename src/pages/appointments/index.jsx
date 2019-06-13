@@ -6,8 +6,8 @@ import Container from '../../components/container';
 import Form from '../../components/form';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
-import { PrimaryTitle } from '../../components/titles';
-import { FormGroup } from './styles';
+import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
+import { FormGroup, Description, Section } from './styles';
 
 export default class Appointments extends Component {
   state = {
@@ -52,38 +52,43 @@ export default class Appointments extends Component {
   // renders
   renderEmailForm() {
     return (
-      <Form onSubmit={this.handleCheckEmail} method="post">
-        <FormGroup>
-          <PrimaryInput
-            onChange={(e) => { this.email = e.target.value; }}
-            placeholder="Digite seu email *"
-            type="email"
-          />
-        </FormGroup>
-        <PrimaryButton type="submit">ok</PrimaryButton>
-      </Form>
+      <Section>
+        <Form onSubmit={this.handleCheckEmail} method="post">
+          <FormGroup>
+            <PrimaryInput
+              onChange={(e) => { this.email = e.target.value; }}
+              placeholder="Digite seu email *"
+              type="email"
+            />
+          </FormGroup>
+          <PrimaryButton type="submit">ok</PrimaryButton>
+        </Form>
+      </Section>
     );
   }
 
   renderSignInForm() {
     return (
-      <Form onSubmit={this.handleSignIn} method="post">
-        <FormGroup>
-          <PrimaryInput
-            onChange={(e) => { this.name = e.target.value; }}
-            placeholder="Digite seu nome *"
-            type="text"
-          />
-        </FormGroup>
-        <FormGroup>
-          <PrimaryInput
-            onChange={(e) => { this.phone = e.target.value; }}
-            placeholder="Digite seu telefone *"
-            type="number"
-          />
-        </FormGroup>
-        <PrimaryButton type="submit">ok</PrimaryButton>
-      </Form>
+      <Section>
+        <Form onSubmit={this.handleSignIn} method="post">
+          <SecondaryTitle>Complete seu cadastro</SecondaryTitle>
+          <FormGroup>
+            <PrimaryInput
+              onChange={(e) => { this.name = e.target.value; }}
+              placeholder="Digite seu nome *"
+              type="text"
+            />
+          </FormGroup>
+          <FormGroup>
+            <PrimaryInput
+              onChange={(e) => { this.phone = e.target.value; }}
+              placeholder="Digite seu telefone *"
+              type="number"
+            />
+          </FormGroup>
+          <PrimaryButton type="submit">ok</PrimaryButton>
+        </Form>
+      </Section>
     );
   }
 
@@ -91,6 +96,12 @@ export default class Appointments extends Component {
     return (
       <Container>
         <PrimaryTitle>Agendamentos</PrimaryTitle>
+        <Description>
+          Nessa área você poderá agendar uma consulta. Digite seu email
+          no campo abaixo para iniciar. Se for a primeira consulta após
+          informar seu email, você deverá completar o cadastro. Não se preocupe,
+          pois será bem rápido :)
+        </Description>
         {this.renderEmailForm()}
         {this.renderSignInForm()}
       </Container>
