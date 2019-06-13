@@ -1,0 +1,23 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BaseInput /> Should change the borderColor when prop is set 1`] = `
+<input
+  className="sc-bdVaJa faCClo"
+  type="text"
+/>
+`;
+
+exports[`<BaseInput /> Should change the color when prop is set 1`] = `
+<input
+  className="sc-bdVaJa jkdOAU"
+  color="primary"
+  type="text"
+/>
+`;
+
+exports[`<BaseInput /> Should render the component 1`] = `
+<input
+  className="sc-bdVaJa kdsZqN"
+  type="text"
+/>
+`;
