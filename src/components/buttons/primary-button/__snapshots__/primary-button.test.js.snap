@@ -1,0 +1,11 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<PrimaryButton /> Should render the component 1`] = `
+<button
+  className="sc-bdVaJa kXWPfv"
+  color="lightest"
+  type="button"
+>
+  My children
+</button>
+`;

@@ -1,0 +1,29 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<BaseButton /> Should change the backgroundColor when prop is set 1`] = `
+<button
+  className="sc-bdVaJa dOxXJD"
+  type="button"
+>
+  My children
+</button>
+`;
+
+exports[`<BaseButton /> Should change the color when prop is set 1`] = `
+<button
+  className="sc-bdVaJa kebtMc"
+  color="primary"
+  type="button"
+>
+  My children
+</button>
+`;
+
+exports[`<BaseButton /> Should render the component 1`] = `
+<button
+  className="sc-bdVaJa debtoM"
+  type="button"
+>
+  My children
+</button>
+`;

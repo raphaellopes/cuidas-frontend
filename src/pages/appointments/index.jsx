@@ -4,6 +4,7 @@ import React, { Component } from 'react';
 // locals
 import Container from '../../components/container';
 import Form from '../../components/form';
+import { PrimaryButton } from '../../components/buttons';
 
 export default class Appointments extends Component {
   // handlers
@@ -24,7 +25,7 @@ export default class Appointments extends Component {
     return (
       <Form onSubmit={this.handleCheckEmail} method="post">
         Form check email
-        <button type="submit">ok</button>
+        <PrimaryButton type="submit">ok</PrimaryButton>
       </Form>
     );
   }
@@ -33,7 +34,7 @@ export default class Appointments extends Component {
     return (
       <Form onSubmit={this.handleSignIn} method="post">
         Form signIn
-        <button type="submit">ok</button>
+        <PrimaryButton type="submit">ok</PrimaryButton>
       </Form>
     );
   }
