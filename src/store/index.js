@@ -2,6 +2,7 @@
 import { createStore, compose, applyMiddleware } from 'redux';
 
 // locals
+import '../config/reactotron';
 import reducers from './ducks';
 
 const middlewares = [];
