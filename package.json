@@ -8,14 +8,16 @@
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
     "react-flatpickr": "^3.9.0",
+    "react-redux": "^7.1.0",
     "react-router-dom": "^5.0.1",
     "react-scripts": "3.0.1",
+    "redux": "^4.0.1",
     "styled-components": "^4.3.1"
   },
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test --coverage  --watchAll=false --collectCoverageFrom=./src/components/**/*.{js,jsx} --verbose",
+    "test": "react-scripts test --coverage  --watchAll=false --collectCoverageFrom=./src/{components,store}/**/*.{js,jsx} --verbose",
     "test:update": "yarn test --updateSnapshot",
     "test:watch": "react-scripts test",
     "eject": "react-scripts eject"
