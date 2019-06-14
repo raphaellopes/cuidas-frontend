@@ -23,6 +23,8 @@ export default class Appointments extends Component {
     errorEmail: false,
     errorName: false,
     errorPhone: false,
+
+    step: 'email',
   };
 
   // getters and setters
@@ -70,12 +72,22 @@ export default class Appointments extends Component {
     this.setState({ errorPhone });
   }
 
+  get step() {
+    const { step } = this.state;
+    return step;
+  }
+
+  set step(step) {
+    this.setState({ step });
+  }
+
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
 
     if (this.email) {
       console.log('Submit check email!', this.email);
+      this.step = 'signIn';
     } else {
       this.errorEmail = true;
     }
@@ -94,7 +106,10 @@ export default class Appointments extends Component {
       this.errorPhone = true;
     }
 
-    console.log('Submit signIn!', { name, phone, email });
+    if (name && phone) {
+      console.log('Submit signIn!', { name, phone, email });
+      this.step = 'appointments';
+    }
   }
 
   handleAppointment = (e) => {
@@ -107,7 +122,7 @@ export default class Appointments extends Component {
 
   // renders
   renderEmailForm() {
-    return (
+    return this.step === 'email' && (
       <Section>
         <Form onSubmit={this.handleCheckEmail} method="post">
           <FormGroup>
@@ -128,7 +143,7 @@ export default class Appointments extends Component {
   }
 
   renderSignInForm() {
-    return (
+    return this.step === 'signIn' && (
       <Section>
         <Form onSubmit={this.handleSignIn} method="post">
           <SecondaryTitle>Complete seu cadastro</SecondaryTitle>
@@ -161,7 +176,7 @@ export default class Appointments extends Component {
   }
 
   renderPersonalData() {
-    return (
+    return this.step === 'appointments' && (
       <Section>
         <PersonalData>
           <SecondaryTitle>Dados pessoais</SecondaryTitle>
@@ -187,7 +202,7 @@ export default class Appointments extends Component {
       '09:00',
     ];
 
-    return (
+    return this.step === 'appointments' && (
       <Fragment>
         <Section>
           <Form onSubmit={this.handleAppointment} method="post">
