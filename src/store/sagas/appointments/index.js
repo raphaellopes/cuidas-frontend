@@ -19,11 +19,32 @@ export function* appointmentsSave(action) {
   }
 }
 
+export function* appointmentsCheck(action) {
+  try {
+    const { data } = yield call(api.get, 'schedule/available', {
+      params: {
+        date: action.payload.date,
+      },
+    });
+
+    yield put(Creators.appointmentsCheckSucccess(data));
+  } catch (err) {
+    yield put(Creators.appointmentsCheckError('Erro ao buscar horários!'));
+  }
+}
+
 // watchers
 export function* appointmentsSaveWatcher() {
   yield takeLatest(Types.APPOINTMENTS_SAVE_REQUEST, appointmentsSave);
 }
 
+export function* appointmentsCheckWatcher() {
+  yield takeLatest(Types.APPOINTMENTS_CHECK_REQUEST, appointmentsCheck);
+}
+
 export function* appointmentsWatcher() {
-  yield all([appointmentsSaveWatcher()]);
+  yield all([
+    appointmentsSaveWatcher(),
+    appointmentsCheckWatcher(),
+  ]);
 }

@@ -3,6 +3,7 @@ import React, { Component, Fragment } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import moment from 'moment';
 
 // locals
 import { Creators as UserActions } from '../../store/ducks/users';
@@ -31,7 +32,14 @@ class Appointments extends Component {
     }).isRequired,
     usersCheckRequest: PropTypes.func.isRequired,
     usersSaveRequest: PropTypes.func.isRequired,
+
+    appointments: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      error: PropTypes.oneOfType([null, PropTypes.string]),
+      hours: PropTypes.arrayOf(PropTypes.string),
+    }),
     appointmentsSaveRequest: PropTypes.func.isRequired,
+    appointmentsCheckRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -60,6 +68,7 @@ class Appointments extends Component {
 
     if (data.name && data.name !== prevUsers.name) {
       this.step = 'appointments';
+      this.checkHours();
     }
   }
 
@@ -169,6 +178,13 @@ class Appointments extends Component {
     });
   };
 
+  checkHours = () => {
+    const { appointmentsCheckRequest } = this.props;
+    const { date } = this.state;
+
+    appointmentsCheckRequest(moment(date).format('YYYY-MM-DD'));
+  }
+
   // renders
   renderEmailForm() {
     return this.step === 'email' && (
@@ -251,11 +267,7 @@ class Appointments extends Component {
 
   renderAppointments() {
     const { date } = this.state;
-
-    const hours = [
-      '08:00',
-      '09:00',
-    ];
+    const { appointments } = this.props;
 
     return this.step === 'appointments' && (
       <Fragment>
@@ -267,6 +279,7 @@ class Appointments extends Component {
                 value={date}
                 onChange={(calendarDate) => {
                   this.setState({ date: calendarDate[0] });
+                  this.checkHours();
                 }}
                 options={{
                   minDate: 'today',
@@ -283,7 +296,7 @@ class Appointments extends Component {
               />
             </FormGroup>
             <SecondaryTitle as="h3">Horários disponíveis</SecondaryTitle>
-            {hours.map((h) => {
+            {appointments.hours.map((h) => {
               const id = `hour-${h.split(':')[0]}`;
 
               return (
@@ -342,6 +355,7 @@ class Appointments extends Component {
 
 const mapStateToProps = state => ({
   users: state.users,
+  appointments: state.appointments,
 });
 
 const mapDispatchToProps = dispatch => ({

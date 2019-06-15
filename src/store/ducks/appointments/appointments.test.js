@@ -49,6 +49,50 @@ describe('Redux Appointments', () => {
         expect(action).toEqual(expected);
       });
     });
+
+    describe('appointmentsCheck', () => {
+      const date = '2019-06-15';
+
+      test('Should create a request action', () => {
+        const payload = { date };
+        const expected = {
+          type: Types.APPOINTMENTS_CHECK_REQUEST,
+          payload,
+        };
+
+        const action = Creators.appointmentsCheckRequest(payload.date);
+
+        expect(action).toEqual(expected);
+      });
+
+      test('Should create a success action', () => {
+        const payload = {
+          data: ['09:00'],
+        };
+        const expected = {
+          type: Types.APPOINTMENTS_CHECK_SUCCESS,
+          payload,
+        };
+
+        const action = Creators.appointmentsCheckSucccess(payload.data);
+
+        expect(action).toEqual(expected);
+      });
+
+      test('Should create an error action', () => {
+        const payload = {
+          error: 'some error',
+        };
+        const expected = {
+          type: Types.APPOINTMENTS_CHECK_ERROR,
+          payload,
+        };
+
+        const action = Creators.appointmentsCheckError(payload.error);
+
+        expect(action).toEqual(expected);
+      });
+    });
   });
 
   describe('REDUCERS', () => {
@@ -85,6 +129,19 @@ describe('Redux Appointments', () => {
           ...initialState.data,
           payload.data,
         ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    test('Should handle APPOINTMENTS_CHECK_SUCCESS', () => {
+      const payload = { data: ['09:00'] };
+      const action = { type: Types.APPOINTMENTS_CHECK_SUCCESS, payload };
+      const actual = reducer(initialState, action);
+      const expected = {
+        ...initialState,
+        loading: false,
+        hours: ['09:00'],
       };
 
       expect(actual).toEqual(expected);
