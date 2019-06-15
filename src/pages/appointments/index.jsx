@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 
 // locals
 import { Creators as UserActions } from '../../store/ducks/users';
+import { Creators as AppointmentsActions } from '../../store/ducks/appointments';
 import Container from '../../components/container';
 import Form from '../../components/form';
 import Calendar from '../../components/calendar';
@@ -30,6 +31,7 @@ class Appointments extends Component {
     }).isRequired,
     usersCheckRequest: PropTypes.func.isRequired,
     usersSaveRequest: PropTypes.func.isRequired,
+    appointmentsSaveRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -115,7 +117,7 @@ class Appointments extends Component {
     this.setState({ step });
   }
 
-  get isEmailLoading() {
+  get isUsersLoading() {
     const { users } = this.props;
     return users.loading;
   }
@@ -158,8 +160,13 @@ class Appointments extends Component {
     e.preventDefault();
 
     const { date, hour } = this.state;
+    const { appointmentsSaveRequest, users } = this.props;
 
     console.log('Submit signIn!', { date, hour });
+    appointmentsSaveRequest({
+      user: users.data._id,
+      date,
+    });
   };
 
   // renders
@@ -179,7 +186,7 @@ class Appointments extends Component {
             />
           </FormGroup>
           <PrimaryButton type="submit">
-            {this.isEmailLoading ? 'aguarde' : 'ok'}
+            {this.isUsersLoading ? 'aguarde' : 'ok'}
           </PrimaryButton>
         </Form>
       </Section>
@@ -213,7 +220,9 @@ class Appointments extends Component {
               type="number"
             />
           </FormGroup>
-          <PrimaryButton type="submit">ok</PrimaryButton>
+          <PrimaryButton type="submit">
+            {this.isUsersLoading ? 'aguarde' : 'ok'}
+          </PrimaryButton>
         </Form>
       </Section>
     );
@@ -335,6 +344,9 @@ const mapStateToProps = state => ({
   users: state.users,
 });
 
-const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+const mapDispatchToProps = dispatch => ({
+  ...bindActionCreators(UserActions, dispatch),
+  ...bindActionCreators(AppointmentsActions, dispatch),
+});
 
 export default connect(mapStateToProps, mapDispatchToProps)(Appointments);
