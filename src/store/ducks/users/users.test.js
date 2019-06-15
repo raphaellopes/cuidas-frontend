@@ -2,49 +2,98 @@ import reducer, { Creators, Types, initialState } from './index';
 
 describe('Redux Users', () => {
   describe('ACTIONS', () => {
-    test('Should create a request action', () => {
-      const payload = { email: 'test@email' };
-      const expected = {
-        type: Types.USERS_CHECK_REQUEST,
-        payload,
-      };
+    describe('usersCheck', () => {
+      test('Should create a request action', () => {
+        const payload = { email: 'test@email' };
+        const expected = {
+          type: Types.USERS_CHECK_REQUEST,
+          payload,
+        };
 
-      const action = Creators.usersCheckRequest(payload.email);
+        const action = Creators.usersCheckRequest(payload.email);
 
-      expect(action).toEqual(expected);
-    });
+        expect(action).toEqual(expected);
+      });
 
-    test('Should create a success action', () => {
-      const payload = {
-        data: {
-          id: 'U1',
-          name: 'fulano',
-          phone: 12345678901,
-          createdAt: 'some-date',
-        },
-      };
-      const expected = {
-        type: Types.USERS_CHECK_SUCCESS,
-        payload,
-      };
+      test('Should create a success action', () => {
+        const payload = {
+          data: {
+            id: 'U1',
+            name: 'fulano',
+            phone: 12345678901,
+            createdAt: 'some-date',
+          },
+        };
+        const expected = {
+          type: Types.USERS_CHECK_SUCCESS,
+          payload,
+        };
 
-      const action = Creators.usersCheckSucccess(payload.data);
+        const action = Creators.usersCheckSucccess(payload.data);
 
-      expect(action).toEqual(expected);
-    });
+        expect(action).toEqual(expected);
+      });
 
-    test('Should create an error action', () => {
-      const payload = {
-        error: 'some error',
-      };
-      const expected = {
-        type: Types.USERS_CHECK_ERROR,
-        payload,
-      };
+      test('Should create an error action', () => {
+        const payload = {
+          error: 'some error',
+        };
+        const expected = {
+          type: Types.USERS_CHECK_ERROR,
+          payload,
+        };
 
-      const action = Creators.usersCheckError(payload.error);
+        const action = Creators.usersCheckError(payload.error);
 
-      expect(action).toEqual(expected);
+        expect(action).toEqual(expected);
+      });
+
+      describe('usersSave', () => {
+        test('Should create a request action', () => {
+          const payload = { data: { name: 'test', email: 'a@a', phone: 123 } };
+          const expected = {
+            type: Types.USERS_SAVE_REQUEST,
+            payload,
+          };
+
+          const action = Creators.usersSaveRequest(payload.data);
+
+          expect(action).toEqual(expected);
+        });
+
+        test('Should create a success action', () => {
+          const payload = {
+            data: {
+              id: 'U1',
+              name: 'fulano',
+              phone: 12345678901,
+              createdAt: 'some-date',
+            },
+          };
+          const expected = {
+            type: Types.USERS_SAVE_SUCCESS,
+            payload,
+          };
+
+          const action = Creators.usersSaveSucccess(payload.data);
+
+          expect(action).toEqual(expected);
+        });
+
+        test('Should create an error action', () => {
+          const payload = {
+            error: 'some error',
+          };
+          const expected = {
+            type: Types.USERS_SAVE_ERROR,
+            payload,
+          };
+
+          const action = Creators.usersSaveError(payload.error);
+
+          expect(action).toEqual(expected);
+        });
+      });
     });
   });
 

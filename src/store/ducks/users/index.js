@@ -4,6 +4,9 @@ export const Types = {
   USERS_CHECK_REQUEST: `${namespace}/check/request`,
   USERS_CHECK_SUCCESS: `${namespace}/check/success`,
   USERS_CHECK_ERROR: `${namespace}/check/error`,
+  USERS_SAVE_REQUEST: `${namespace}/save/request`,
+  USERS_SAVE_SUCCESS: `${namespace}/save/success`,
+  USERS_SAVE_ERROR: `${namespace}/save/error`,
 };
 
 // reducers
@@ -16,6 +19,7 @@ export const initialState = {
 export default function users(state = initialState, action) {
   switch (action.type) {
     case Types.USERS_CHECK_REQUEST:
+    case Types.USERS_SAVE_REQUEST:
       return {
         ...state,
         loading: true,
@@ -23,6 +27,7 @@ export default function users(state = initialState, action) {
       };
 
     case Types.USERS_CHECK_ERROR:
+    case Types.USERS_SAVE_ERROR:
       return {
         ...state,
         loading: false,
@@ -30,6 +35,7 @@ export default function users(state = initialState, action) {
       };
 
     case Types.USERS_CHECK_SUCCESS:
+    case Types.USERS_SAVE_SUCCESS:
       return {
         ...state,
         loading: false,
@@ -54,6 +60,18 @@ export const Creators = {
   }),
   usersCheckError: error => ({
     type: Types.USERS_CHECK_ERROR,
+    payload: { error },
+  }),
+  usersSaveRequest: data => ({
+    type: Types.USERS_SAVE_REQUEST,
+    payload: { data },
+  }),
+  usersSaveSucccess: data => ({
+    type: Types.USERS_SAVE_SUCCESS,
+    payload: { data },
+  }),
+  usersSaveError: error => ({
+    type: Types.USERS_SAVE_ERROR,
     payload: { error },
   }),
 };

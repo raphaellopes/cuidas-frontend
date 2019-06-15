@@ -22,13 +22,14 @@ class Appointments extends Component {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.oneOfType([null, PropTypes.string]),
       data: PropTypes.shape({
-        _id: PropTypes.number,
+        _id: PropTypes.string,
         name: PropTypes.string,
         email: PropTypes.string,
         phone: PropTypes.number,
       }),
     }).isRequired,
     usersCheckRequest: PropTypes.func.isRequired,
+    usersSaveRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -44,6 +45,21 @@ class Appointments extends Component {
 
     step: 'email',
   };
+
+  // lifecicle
+  componentDidUpdate(prevProps) {
+    const { users: { data } } = this.props;
+    const prevUsers = prevProps.users.data;
+    console.log('componentDidUpdate', prevProps, this.props);
+
+    if (data.email && data.email !== prevUsers.email) {
+      this.step = 'signIn';
+    }
+
+    if (data.name && data.name !== prevUsers.name) {
+      this.step = 'appointments';
+    }
+  }
 
   // getters and setters
   get email() {
@@ -104,15 +120,6 @@ class Appointments extends Component {
     return users.loading;
   }
 
-  // lifecicle
-  componentDidUpdate(prevProps) {
-    const { users: { data } } = this.props;
-    console.log('componentDidUpdate', prevProps, this.props);
-    if (data.email && data.email !== prevProps.users.data.email) {
-      this.step = 'signIn';
-    }
-  }
-
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
@@ -131,6 +138,7 @@ class Appointments extends Component {
     e.preventDefault();
 
     const { name, phone, email } = this.state;
+    const { usersSaveRequest } = this.props;
 
     if (!name) {
       this.errorName = true;
@@ -142,7 +150,7 @@ class Appointments extends Component {
 
     if (name && phone) {
       console.log('Submit signIn!', { name, phone, email });
-      this.step = 'appointments';
+      usersSaveRequest({ name, phone, email });
     }
   }
 
@@ -212,18 +220,20 @@ class Appointments extends Component {
   }
 
   renderPersonalData() {
+    const { users: { data: { name, email, phone } } } = this.props;
+
     return this.step === 'appointments' && (
       <Section>
         <PersonalData>
           <SecondaryTitle>Dados pessoais</SecondaryTitle>
           <p>
-            <strong>Nome:</strong> Fulano de tal
+            <strong>Nome:</strong> {name}
           </p>
           <p>
-            <strong>email:</strong> some@email.com
+            <strong>email:</strong> {email}
           </p>
           <p>
-            <strong>Telefone:</strong> 11 1234-56789
+            <strong>Telefone:</strong> {phone}
           </p>
         </PersonalData>
       </Section>

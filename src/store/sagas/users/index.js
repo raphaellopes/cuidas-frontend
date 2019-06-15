@@ -1,5 +1,7 @@
 // vendor
-import { call, put, takeLatest } from 'redux-saga/effects';
+import {
+  all, call, put, takeLatest,
+} from 'redux-saga/effects';
 
 // locals
 import api from '../../../services/api';
@@ -24,6 +26,27 @@ export function* usersCheck(action) {
   }
 }
 
-export function* usersWatcher() {
+export function* usersSave(action) {
+  try {
+    const { data } = yield call(api.post, 'user', {
+      ...action.payload.data,
+    });
+
+    yield put(Creators.usersSaveSucccess(data));
+  } catch (err) {
+    yield put(Creators.usersSaveError('Erro ao salvar usuário!'));
+  }
+}
+
+// watchers
+export function* usersCheckWatcher() {
   yield takeLatest(Types.USERS_CHECK_REQUEST, usersCheck);
+}
+
+export function* usersSaveWatcher() {
+  yield takeLatest(Types.USERS_SAVE_REQUEST, usersSave);
+}
+
+export function* usersWatcher() {
+  yield all([usersCheckWatcher(), usersSaveWatcher()]);
 }
