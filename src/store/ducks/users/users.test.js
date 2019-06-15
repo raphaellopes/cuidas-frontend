@@ -9,7 +9,7 @@ describe('Redux Users', () => {
         payload,
       };
 
-      const action = Creators.usersRequest(payload.email);
+      const action = Creators.usersCheckRequest(payload.email);
 
       expect(action).toEqual(expected);
     });
@@ -28,7 +28,7 @@ describe('Redux Users', () => {
         payload,
       };
 
-      const action = Creators.usersSucccess(payload.data);
+      const action = Creators.usersCheckSucccess(payload.data);
 
       expect(action).toEqual(expected);
     });
@@ -42,7 +42,7 @@ describe('Redux Users', () => {
         payload,
       };
 
-      const action = Creators.usersError(payload.error);
+      const action = Creators.usersCheckError(payload.error);
 
       expect(action).toEqual(expected);
     });

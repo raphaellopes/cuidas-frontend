@@ -1,9 +1,9 @@
 // types
 const namespace = 'users';
 export const Types = {
-  USERS_CHECK_REQUEST: `${namespace}/request`,
-  USERS_CHECK_SUCCESS: `${namespace}/success`,
-  USERS_CHECK_ERROR: `${namespace}/error`,
+  USERS_CHECK_REQUEST: `${namespace}/check/request`,
+  USERS_CHECK_SUCCESS: `${namespace}/check/success`,
+  USERS_CHECK_ERROR: `${namespace}/check/error`,
 };
 
 // reducers
@@ -44,15 +44,15 @@ export default function users(state = initialState, action) {
 
 // actions
 export const Creators = {
-  usersRequest: email => ({
+  usersCheckRequest: email => ({
     type: Types.USERS_CHECK_REQUEST,
     payload: { email },
   }),
-  usersSucccess: data => ({
+  usersCheckSucccess: data => ({
     type: Types.USERS_CHECK_SUCCESS,
     payload: { data },
   }),
-  usersError: error => ({
+  usersCheckError: error => ({
     type: Types.USERS_CHECK_ERROR,
     payload: { error },
   }),

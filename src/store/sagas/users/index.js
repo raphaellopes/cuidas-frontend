@@ -15,12 +15,12 @@ export function* usersCheck(action) {
     });
 
     if (data) {
-      yield put(Creators.usersSucccess(data));
+      yield put(Creators.usersCheckSucccess(data));
     } else {
-      yield put(Creators.usersSucccess({ email }));
+      yield put(Creators.usersCheckSucccess({ email }));
     }
   } catch (err) {
-    yield put(Creators.usersError('Erro ao tentar encontrar o usuário!'));
+    yield put(Creators.usersCheckError('Erro ao tentar encontrar o usuário!'));
   }
 }
 

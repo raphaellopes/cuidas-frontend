@@ -28,7 +28,7 @@ class Appointments extends Component {
         phone: PropTypes.number,
       }),
     }).isRequired,
-    usersRequest: PropTypes.func.isRequired,
+    usersCheckRequest: PropTypes.func.isRequired,
   };
 
   state = {
@@ -117,11 +117,11 @@ class Appointments extends Component {
   handleCheckEmail = (e) => {
     e.preventDefault();
 
-    const { usersRequest } = this.props;
+    const { usersCheckRequest } = this.props;
 
     if (this.email) {
       console.log('Submit check email!', this.email);
-      usersRequest(this.email);
+      usersCheckRequest(this.email);
     } else {
       this.errorEmail = true;
     }
