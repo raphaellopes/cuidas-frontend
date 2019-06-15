@@ -78,7 +78,7 @@ describe('Redux Users', () => {
       const expected = {
         ...initialState,
         loading: false,
-        data: [payload.data],
+        data: payload.data,
       };
 
       expect(data).toEqual(expected);

@@ -10,7 +10,7 @@ export const Types = {
 export const initialState = {
   loading: false,
   error: null,
-  data: [],
+  data: {},
 };
 
 export default function users(state = initialState, action) {
@@ -34,10 +34,7 @@ export default function users(state = initialState, action) {
         ...state,
         loading: false,
         error: null,
-        data: [
-          ...state.data,
-          action.payload.data,
-        ],
+        data: action.payload.data,
       };
 
     default:

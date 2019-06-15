@@ -14,7 +14,11 @@ export function* usersCheck(action) {
       },
     });
 
-    yield put(Creators.usersSucccess(data));
+    if (data) {
+      yield put(Creators.usersSucccess(data));
+    } else {
+      yield put(Creators.usersSucccess({ email }));
+    }
   } catch (err) {
     yield put(Creators.usersError('Erro ao tentar encontrar o usuário!'));
   }

@@ -21,12 +21,12 @@ class Appointments extends Component {
     users: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
       error: PropTypes.oneOfType([null, PropTypes.string]),
-      data: PropTypes.arrayOf(PropTypes.shape({
+      data: PropTypes.shape({
         _id: PropTypes.number,
         name: PropTypes.string,
         email: PropTypes.string,
         phone: PropTypes.number,
-      })),
+      }),
     }).isRequired,
     usersRequest: PropTypes.func.isRequired,
   };
@@ -104,14 +104,24 @@ class Appointments extends Component {
     return users.loading;
   }
 
+  // lifecicle
+  componentDidUpdate(prevProps) {
+    const { users: { data } } = this.props;
+    console.log('componentDidUpdate', prevProps, this.props);
+    if (data.email && data.email !== prevProps.users.data.email) {
+      this.step = 'signIn';
+    }
+  }
+
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
 
+    const { usersRequest } = this.props;
+
     if (this.email) {
       console.log('Submit check email!', this.email);
-      this.props.usersRequest(this.email);
-      // this.step = 'signIn';
+      usersRequest(this.email);
     } else {
       this.errorEmail = true;
     }
