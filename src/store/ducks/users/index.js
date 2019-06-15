@@ -22,6 +22,24 @@ export default function users(state = initialState, action) {
         error: null,
       };
 
+    case Types.USERS_CHECK_ERROR:
+      return {
+        ...state,
+        loading: false,
+        error: action.payload.error,
+      };
+
+    case Types.USERS_CHECK_SUCCESS:
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        data: [
+          ...state.data,
+          action.payload.data,
+        ],
+      };
+
     default:
       return state;
   }

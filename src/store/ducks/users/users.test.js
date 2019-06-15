@@ -61,5 +61,27 @@ describe('Redux Users', () => {
 
       expect(data).toEqual(expected);
     });
+
+    test('Should handle USERS_CHECK_ERROR', () => {
+      const payload = { error: 'some error' };
+      const action = { type: Types.USERS_CHECK_ERROR, payload };
+      const data = reducer(initialState, action);
+      const expected = { ...initialState, loading: false, error: payload.error };
+
+      expect(data).toEqual(expected);
+    });
+
+    test('Should handle USERS_CHECK_SUCCESS', () => {
+      const payload = { data: { id: 'U1' } };
+      const action = { type: Types.USERS_CHECK_SUCCESS, payload };
+      const data = reducer(initialState, action);
+      const expected = {
+        ...initialState,
+        loading: false,
+        data: [payload.data],
+      };
+
+      expect(data).toEqual(expected);
+    });
   });
 });

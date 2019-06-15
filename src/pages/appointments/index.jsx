@@ -1,7 +1,11 @@
 // vendors
 import React, { Component, Fragment } from 'react';
+import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
+import { bindActionCreators } from 'redux';
 
 // locals
+import { Creators as UserActions } from '../../store/ducks/users';
 import Container from '../../components/container';
 import Form from '../../components/form';
 import Calendar from '../../components/calendar';
@@ -12,7 +16,21 @@ import {
   ErrorBox, RadioGroup, FormGroup, Description, Section, PersonalData,
 } from './styles';
 
-export default class Appointments extends Component {
+class Appointments extends Component {
+  static propTypes = {
+    users: PropTypes.shape({
+      loading: PropTypes.bool.isRequired,
+      error: PropTypes.oneOfType([null, PropTypes.string]),
+      data: PropTypes.arrayOf(PropTypes.shape({
+        _id: PropTypes.number,
+        name: PropTypes.string,
+        email: PropTypes.string,
+        phone: PropTypes.number,
+      })),
+    }).isRequired,
+    usersRequest: PropTypes.func.isRequired,
+  };
+
   state = {
     email: '',
     name: '',
@@ -81,13 +99,19 @@ export default class Appointments extends Component {
     this.setState({ step });
   }
 
+  get isEmailLoading() {
+    const { users } = this.props;
+    return users.loading;
+  }
+
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
 
     if (this.email) {
       console.log('Submit check email!', this.email);
-      this.step = 'signIn';
+      this.props.usersRequest(this.email);
+      // this.step = 'signIn';
     } else {
       this.errorEmail = true;
     }
@@ -136,7 +160,9 @@ export default class Appointments extends Component {
               type="email"
             />
           </FormGroup>
-          <PrimaryButton type="submit">ok</PrimaryButton>
+          <PrimaryButton type="submit">
+            {this.isEmailLoading ? 'aguarde' : 'ok'}
+          </PrimaryButton>
         </Form>
       </Section>
     );
@@ -284,3 +310,11 @@ export default class Appointments extends Component {
     );
   }
 }
+
+const mapStateToProps = state => ({
+  users: state.users,
+});
+
+const mapDispatchToProps = dispatch => bindActionCreators(UserActions, dispatch);
+
+export default connect(mapStateToProps, mapDispatchToProps)(Appointments);
