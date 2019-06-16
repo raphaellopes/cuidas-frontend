@@ -6,6 +6,7 @@ import {
 // locals
 import api from '../../../services/api';
 import { Creators, Types } from '../../ducks/users';
+import { Creators as AppointmentsCreators } from '../../ducks/appointments';
 
 export function* usersCheck(action) {
   try {
@@ -17,7 +18,8 @@ export function* usersCheck(action) {
     });
 
     if (data) {
-      yield put(Creators.usersCheckSucccess(data));
+      yield put(Creators.usersCheckSucccess(data.user));
+      yield put(AppointmentsCreators.appointmentsFetchSuccess(data.schedules));
     } else {
       yield put(Creators.usersCheckSucccess({ email }));
     }

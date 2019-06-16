@@ -4,6 +4,7 @@ import moment from 'moment';
 // types
 const namespace = 'appointments';
 export const Types = {
+  APPOINTMENTS_FETCH_SUCCESS: `${namespace}/fetch/success`,
   APPOINTMENTS_SAVE_REQUEST: `${namespace}/save/request`,
   APPOINTMENTS_SAVE_SUCCESS: `${namespace}/save/success`,
   APPOINTMENTS_SAVE_ERROR: `${namespace}/save/error`,
@@ -56,6 +57,17 @@ export default function appointments(state = initialState, action) {
       };
     }
 
+    case Types.APPOINTMENTS_FETCH_SUCCESS: {
+      const { data } = action.payload;
+
+      return {
+        ...state,
+        loading: false,
+        error: null,
+        data,
+      };
+    }
+
     case Types.APPOINTMENTS_CHECK_SUCCESS:
       return {
         ...state,
@@ -71,6 +83,10 @@ export default function appointments(state = initialState, action) {
 
 // actions
 export const Creators = {
+  appointmentsFetchSuccess: data => ({
+    type: Types.APPOINTMENTS_FETCH_SUCCESS,
+    payload: { data },
+  }),
   appointmentsSaveRequest: data => ({
     type: Types.APPOINTMENTS_SAVE_REQUEST,
     payload: { data },

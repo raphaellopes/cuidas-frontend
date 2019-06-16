@@ -4,6 +4,24 @@ const data = { user: 'U1', date: '2019-06-16 09:00' };
 
 describe('Redux Appointments', () => {
   describe('ACTIONS', () => {
+    describe('appointmentsFetch', () => {
+      test('Should create a success action', () => {
+        const payload = {
+          data: [
+            data,
+          ],
+        };
+        const expected = {
+          type: Types.APPOINTMENTS_FETCH_SUCCESS,
+          payload,
+        };
+
+        const action = Creators.appointmentsFetchSuccess(payload.data);
+
+        expect(action).toEqual(expected);
+      });
+    });
+
     describe('appointmentsSave', () => {
       test('Should create a request action', () => {
         const payload = { data };
@@ -145,6 +163,22 @@ describe('Redux Appointments', () => {
         ...initialState,
         loading: false,
         hours: ['09:00'],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    test('Should handle APPOINTMENTS_FETCH_SUCCESS', () => {
+      const payload = [data];
+      const action = { type: Types.APPOINTMENTS_FETCH_SUCCESS, payload };
+      const actual = reducer(initialState, action);
+      const expected = {
+        ...initialState,
+        loading: false,
+        data: [
+          ...initialState.data,
+          payload.data,
+        ],
       };
 
       expect(actual).toEqual(expected);

@@ -257,12 +257,17 @@ class Appointments extends Component {
   }
 
   renderAvailableHours() {
-    const { appointments } = this.props;
+    const { appointments: { hours } } = this.props;
 
     return (
       <Fragment>
-        <SecondaryTitle as="h3">Horários disponíveis</SecondaryTitle>
-        {appointments.hours.map((h) => {
+        <SecondaryTitle as="h3">
+          {hours.length
+            ? 'Horários disponíveis'
+            : 'Não há horários disponíveis'
+          }
+        </SecondaryTitle>
+        {hours.map((h) => {
           const id = `hour-${h.split(':')[0]}`;
 
           return (
@@ -285,8 +290,26 @@ class Appointments extends Component {
     );
   }
 
+  renderScheduledApoointments() {
+    const { appointments: { data } } = this.props;
+
+    return (
+      <Section>
+        <SecondaryTitle>Consultas agendadas</SecondaryTitle>
+        {data.length
+          ? data.map(appointment => (
+            <p key={appointment._id}>
+              {moment(appointment.date).format('DD/MM/YYYY HH:mm')}
+            </p>
+          ))
+          : (<p>Não existem consultas agendadas</p>)}
+      </Section>
+    );
+  }
+
   renderAppointments() {
     const { date } = this.state;
+    const { appointments: { hours } } = this.props;
 
     const weekDays = calendarDate => (
       calendarDate.getDay() === 0
@@ -315,13 +338,10 @@ class Appointments extends Component {
               />
             </FormGroup>
             {this.renderAvailableHours()}
-            <PrimaryButton type="submit">ok</PrimaryButton>
+            {hours.length && <PrimaryButton type="submit">ok</PrimaryButton>}
           </Form>
         </Section>
-        <Section>
-          <SecondaryTitle>Consultas agendadas</SecondaryTitle>
-          <p>Não existem consultas agendadas</p>
-        </Section>
+        {this.renderScheduledApoointments()}
       </Fragment>
     );
   }
