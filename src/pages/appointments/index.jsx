@@ -37,7 +37,7 @@ class Appointments extends Component {
       loading: PropTypes.bool.isRequired,
       error: PropTypes.oneOfType([null, PropTypes.string]),
       hours: PropTypes.arrayOf(PropTypes.string),
-    }),
+    }).isRequired,
     appointmentsSaveRequest: PropTypes.func.isRequired,
     appointmentsCheckRequest: PropTypes.func.isRequired,
   };
@@ -47,12 +47,8 @@ class Appointments extends Component {
     name: '',
     phone: '',
     date: new Date(),
-    hour: '',
-
-    errorEmail: false,
-    errorName: false,
-    errorPhone: false,
-
+    time: '',
+    error: null,
     step: 'email',
   };
 
@@ -90,31 +86,13 @@ class Appointments extends Component {
     this.setState({ phone });
   }
 
-  get errorEmail() {
-    const { errorEmail } = this.state;
-    return errorEmail;
+  set error(error) {
+    this.setState({ error });
   }
 
-  set errorEmail(errorEmail) {
-    this.setState({ errorEmail });
-  }
-
-  get errorName() {
-    const { errorName } = this.state;
-    return errorName;
-  }
-
-  set errorName(errorName) {
-    this.setState({ errorName });
-  }
-
-  get errorPhone() {
-    const { errorPhone } = this.state;
-    return errorPhone;
-  }
-
-  set errorPhone(errorPhone) {
-    this.setState({ errorPhone });
+  get error() {
+    const { error } = this.state;
+    return error;
   }
 
   get step() {
@@ -141,7 +119,7 @@ class Appointments extends Component {
       console.log('Submit check email!', this.email);
       usersCheckRequest(this.email);
     } else {
-      this.errorEmail = true;
+      this.error = 'email';
     }
   }
 
@@ -152,11 +130,11 @@ class Appointments extends Component {
     const { usersSaveRequest } = this.props;
 
     if (!name) {
-      this.errorName = true;
+      this.error = 'name';
     }
 
     if (!phone) {
-      this.errorPhone = true;
+      this.error = 'phone';
     }
 
     if (name && phone) {
@@ -168,14 +146,21 @@ class Appointments extends Component {
   handleAppointment = (e) => {
     e.preventDefault();
 
-    const { date, hour } = this.state;
+    const { date: selectedDate, time } = this.state;
     const { appointmentsSaveRequest, users } = this.props;
+    const [hour, min] = time.split(':');
 
-    console.log('Submit signIn!', { date, hour });
-    appointmentsSaveRequest({
-      user: users.data._id,
-      date,
-    });
+    if (!time) {
+      this.error = 'time';
+    } else {
+      const date = moment(selectedDate).hour(hour).minute(min).second(0);
+
+      console.log('Submit signIn!', date.format('DD/MM/YYYY HH:mm'));
+      appointmentsSaveRequest({
+        user: users.data._id,
+        date,
+      });
+    }
   };
 
   checkHours = () => {
@@ -185,6 +170,12 @@ class Appointments extends Component {
     appointmentsCheckRequest(moment(date).format('YYYY-MM-DD'));
   }
 
+  isError = type => this.error === type;
+
+  checkField = field => (
+    this.isError(field) || (this.error && !this.state[field])
+  );
+
   // renders
   renderEmailForm() {
     return this.step === 'email' && (
@@ -193,10 +184,10 @@ class Appointments extends Component {
           <FormGroup>
             <PrimaryInput
               onChange={(e) => {
-                this.errorEmail = false;
+                this.error = null;
                 this.email = e.target.value;
               }}
-              error={this.errorEmail}
+              error={this.checkField('email')}
               placeholder="Digite seu email *"
               type="email"
             />
@@ -217,10 +208,10 @@ class Appointments extends Component {
           <FormGroup>
             <PrimaryInput
               onChange={(e) => {
-                this.errorName = false;
+                this.error = null;
                 this.name = e.target.value;
               }}
-              error={this.errorName}
+              error={this.checkField('name')}
               placeholder="Digite seu nome *"
               type="text"
             />
@@ -228,10 +219,10 @@ class Appointments extends Component {
           <FormGroup>
             <PrimaryInput
               onChange={(e) => {
-                this.errorPhone = false;
+                this.error = null;
                 this.phone = e.target.value;
               }}
-              error={this.errorPhone}
+              error={this.checkField('phone')}
               placeholder="Digite seu telefone *"
               type="number"
             />
@@ -307,7 +298,7 @@ class Appointments extends Component {
                     name="hour"
                     value={h}
                     onChange={(e) => {
-                      this.setState({ hour: e.target.value });
+                      this.setState({ time: e.target.value });
                     }}
                   />
                   <label htmlFor={id}>{h}</label>
@@ -326,7 +317,7 @@ class Appointments extends Component {
   }
 
   renderBoxError() {
-    return (this.errorEmail || this.errorName || this.errorPhone) && (
+    return this.error && (
       <ErrorBox>
         Verifique as informações
       </ErrorBox>
@@ -343,10 +334,10 @@ class Appointments extends Component {
           informar seu email, você deverá completar o cadastro. Não se preocupe,
           pois será bem rápido :)
         </Description>
+        {this.renderPersonalData()}
         {this.renderBoxError()}
         {this.renderEmailForm()}
         {this.renderSignInForm()}
-        {this.renderPersonalData()}
         {this.renderAppointments()}
       </Container>
     );
