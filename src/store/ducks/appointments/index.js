@@ -1,3 +1,6 @@
+// vendors
+import moment from 'moment';
+
 // types
 const namespace = 'appointments';
 export const Types = {
@@ -35,16 +38,23 @@ export default function appointments(state = initialState, action) {
         error: action.payload.error,
       };
 
-    case Types.APPOINTMENTS_SAVE_SUCCESS:
+    case Types.APPOINTMENTS_SAVE_SUCCESS: {
+      const { data } = action.payload;
+      const hours = state.hours.filter(h => (
+        h !== moment(data.date).format('HH:mm')
+      ));
+
       return {
         ...state,
         loading: false,
         error: null,
+        hours,
         data: [
           ...state.data,
-          action.payload.data,
+          data,
         ],
       };
+    }
 
     case Types.APPOINTMENTS_CHECK_SUCCESS:
       return {

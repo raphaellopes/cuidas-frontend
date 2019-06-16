@@ -256,9 +256,42 @@ class Appointments extends Component {
     );
   }
 
+  renderAvailableHours() {
+    const { appointments } = this.props;
+
+    return (
+      <Fragment>
+        <SecondaryTitle as="h3">Horários disponíveis</SecondaryTitle>
+        {appointments.hours.map((h) => {
+          const id = `hour-${h.split(':')[0]}`;
+
+          return (
+            <RadioGroup key={`radio-${id}`}>
+              <input
+                id={id}
+                type="radio"
+                name="hour"
+                value={h}
+                onChange={(e) => {
+                  this.setState({ time: e.target.value });
+                  this.error = null;
+                }}
+              />
+              <label htmlFor={id}>{h}</label>
+            </RadioGroup>
+          );
+        })}
+      </Fragment>
+    );
+  }
+
   renderAppointments() {
     const { date } = this.state;
-    const { appointments } = this.props;
+
+    const weekDays = calendarDate => (
+      calendarDate.getDay() === 0
+      || calendarDate.getDay() === 6
+    );
 
     return this.step === 'appointments' && (
       <Fragment>
@@ -276,35 +309,12 @@ class Appointments extends Component {
                   minDate: 'today',
                   dateFormat: 'd/m/Y',
                   disable: [
-                    function (calendarDate) {
-                      return (
-                        calendarDate.getDay() === 0
-                        || calendarDate.getDay() === 6
-                      );
-                    },
+                    weekDays,
                   ],
                 }}
               />
             </FormGroup>
-            <SecondaryTitle as="h3">Horários disponíveis</SecondaryTitle>
-            {appointments.hours.map((h) => {
-              const id = `hour-${h.split(':')[0]}`;
-
-              return (
-                <RadioGroup key={`radio-${id}`}>
-                  <input
-                    id={id}
-                    type="radio"
-                    name="hour"
-                    value={h}
-                    onChange={(e) => {
-                      this.setState({ time: e.target.value });
-                    }}
-                  />
-                  <label htmlFor={id}>{h}</label>
-                </RadioGroup>
-              );
-            })}
+            {this.renderAvailableHours()}
             <PrimaryButton type="submit">ok</PrimaryButton>
           </Form>
         </Section>

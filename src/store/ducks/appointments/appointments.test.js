@@ -1,6 +1,6 @@
 import reducer, { Creators, Types, initialState } from './index';
 
-const data = { name: 'test', email: 'test@email', phone: 123 };
+const data = { user: 'U1', date: '2019-06-16 09:00' };
 
 describe('Redux Appointments', () => {
   describe('ACTIONS', () => {
@@ -121,7 +121,10 @@ describe('Redux Appointments', () => {
     test('Should handle APPOINTMENTS_SAVE_SUCCESS', () => {
       const payload = { data };
       const action = { type: Types.APPOINTMENTS_SAVE_SUCCESS, payload };
-      const actual = reducer(initialState, action);
+      const actual = reducer({
+        ...initialState,
+        hours: ['09:00'],
+      }, action);
       const expected = {
         ...initialState,
         loading: false,
