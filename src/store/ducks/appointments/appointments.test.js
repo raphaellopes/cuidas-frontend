@@ -169,7 +169,7 @@ describe('Redux Appointments', () => {
     });
 
     test('Should handle APPOINTMENTS_FETCH_SUCCESS', () => {
-      const payload = [data];
+      const payload = { data: [data] };
       const action = { type: Types.APPOINTMENTS_FETCH_SUCCESS, payload };
       const actual = reducer(initialState, action);
       const expected = {
@@ -177,7 +177,7 @@ describe('Redux Appointments', () => {
         loading: false,
         data: [
           ...initialState.data,
-          payload.data,
+          ...payload.data,
         ],
       };
 
