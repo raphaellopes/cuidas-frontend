@@ -5,6 +5,7 @@ import moment from 'moment';
 const namespace = 'appointments';
 export const Types = {
   APPOINTMENTS_STATUS: `${namespace}/status`,
+  APPOINTMENTS_FETCH_REQUEST: `${namespace}/fetch/request`,
   APPOINTMENTS_FETCH_SUCCESS: `${namespace}/fetch/success`,
   APPOINTMENTS_SAVE_REQUEST: `${namespace}/save/request`,
   APPOINTMENTS_SAVE_SUCCESS: `${namespace}/save/success`,
@@ -12,6 +13,8 @@ export const Types = {
   APPOINTMENTS_CHECK_REQUEST: `${namespace}/check/request`,
   APPOINTMENTS_CHECK_SUCCESS: `${namespace}/check/success`,
   APPOINTMENTS_CHECK_ERROR: `${namespace}/check/error`,
+  APPOINTMENTS_REMOVE_REQUEST: `${namespace}/remove/request`,
+  APPOINTMENTS_REMOVE_SUCCESS: `${namespace}/remove/success`,
 };
 
 // reducers
@@ -26,7 +29,9 @@ export const initialState = {
 export default function appointments(state = initialState, action) {
   switch (action.type) {
     case Types.APPOINTMENTS_SAVE_REQUEST:
+    case Types.APPOINTMENTS_FETCH_REQUEST:
     case Types.APPOINTMENTS_CHECK_REQUEST:
+    case Types.APPOINTMENTS_REMOVE_REQUEST:
       return {
         ...state,
         status: 'requesting',
@@ -83,6 +88,19 @@ export default function appointments(state = initialState, action) {
         hours: action.payload.data,
       };
 
+    case Types.APPOINTMENTS_REMOVE_SUCCESS: {
+      const removed = action.payload.data;
+      const data = state.data.filter(item => item._id !== removed);
+
+      return {
+        ...state,
+        status: 'removed',
+        loading: false,
+        error: null,
+        data,
+      };
+    }
+
     case Types.APPOINTMENTS_STATUS:
       return {
         ...state,
@@ -103,6 +121,9 @@ export const Creators = {
   appointmentsFetchSuccess: data => ({
     type: Types.APPOINTMENTS_FETCH_SUCCESS,
     payload: { data },
+  }),
+  appointmentsFetchRequest: () => ({
+    type: Types.APPOINTMENTS_FETCH_REQUEST,
   }),
   appointmentsSaveRequest: data => ({
     type: Types.APPOINTMENTS_SAVE_REQUEST,
@@ -127,5 +148,13 @@ export const Creators = {
   appointmentsCheckError: error => ({
     type: Types.APPOINTMENTS_CHECK_ERROR,
     payload: { error },
+  }),
+  appointmentsRemoveRequest: data => ({
+    type: Types.APPOINTMENTS_REMOVE_REQUEST,
+    payload: { data },
+  }),
+  appointmentsRemoveSuccess: data => ({
+    type: Types.APPOINTMENTS_REMOVE_SUCCESS,
+    payload: { data },
   }),
 };

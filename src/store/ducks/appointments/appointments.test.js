@@ -1,6 +1,6 @@
 import reducer, { Creators, Types, initialState } from './index';
 
-const data = { user: 'U1', date: '2019-06-16 09:00' };
+const data = { _id: 'A1', user: 'U1', date: '2019-06-16 09:00' };
 
 describe('Redux Appointments', () => {
   describe('ACTIONS', () => {
@@ -17,7 +17,18 @@ describe('Redux Appointments', () => {
         expect(action).toEqual(expected);
       });
     });
+
     describe('appointmentsFetch', () => {
+      test('Should create a request action', () => {
+        const expected = {
+          type: Types.APPOINTMENTS_FETCH_REQUEST,
+        };
+
+        const action = Creators.appointmentsFetchRequest();
+
+        expect(action).toEqual(expected);
+      });
+
       test('Should create a success action', () => {
         const payload = {
           data: [
@@ -124,6 +135,34 @@ describe('Redux Appointments', () => {
         expect(action).toEqual(expected);
       });
     });
+
+    describe('appointmentsRemove', () => {
+      test('Should create a request action', () => {
+        const payload = { data: 'A1' };
+        const expected = {
+          type: Types.APPOINTMENTS_REMOVE_REQUEST,
+          payload,
+        };
+
+        const action = Creators.appointmentsRemoveRequest(payload.data);
+
+        expect(action).toEqual(expected);
+      });
+
+      test('Should create a success action', () => {
+        const payload = {
+          data: 'A1',
+        };
+        const expected = {
+          type: Types.APPOINTMENTS_REMOVE_SUCCESS,
+          payload,
+        };
+
+        const action = Creators.appointmentsRemoveSuccess(payload.data);
+
+        expect(action).toEqual(expected);
+      });
+    });
   });
 
   describe('REDUCERS', () => {
@@ -216,6 +255,21 @@ describe('Redux Appointments', () => {
       const expected = {
         ...initialState,
         status: payload.status,
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    test('Should handle APPOINTMENTS_REMOVE_SUCCESS', () => {
+      const payload = { data: 'A1' };
+      const action = { type: Types.APPOINTMENTS_REMOVE_SUCCESS, payload };
+      const actual = reducer(initialState, action);
+      const expected = {
+        ...initialState,
+        loading: false,
+        error: null,
+        status: 'removed',
+        data: [],
       };
 
       expect(actual).toEqual(expected);

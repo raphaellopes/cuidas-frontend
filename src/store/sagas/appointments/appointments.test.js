@@ -6,6 +6,8 @@ import {
 // locals
 import {
   appointmentsWatcher,
+  appointmentsRemove, appointmentsRemoveWatcher,
+  appointmentsFetch, appointmentsFetchWatcher,
   appointmentsSave, appointmentsSaveWatcher,
   appointmentsCheck, appointmentsCheckWatcher,
 } from './index';
@@ -15,12 +17,36 @@ describe('SAGAS | Appointments', () => {
   test('Should all "appointmentsWatcher"', () => {
     const iterator = appointmentsWatcher();
     const expected = all([
+      appointmentsRemoveWatcher(),
+      appointmentsFetchWatcher(),
       appointmentsSaveWatcher(),
       appointmentsCheckWatcher(),
     ]);
 
     expect(iterator.next().value).toEqual(expected);
     expect(iterator.next().done).toBeTruthy();
+  });
+
+  describe('appointmentsRemove', () => {
+    test('Should dispatch action "appointmentsRemoveRequest"', () => {
+      const iterator = appointmentsRemoveWatcher();
+      const expected = takeLatest(
+        Types.APPOINTMENTS_REMOVE_REQUEST,
+        appointmentsRemove,
+      );
+
+      expect(iterator.next({}).value).toEqual(expected);
+      expect(iterator.next().done).toBeTruthy();
+    });
+
+    test('Should dispatch action "appointmentsSaveError"', () => {
+      const payload = { error: 'Erro ao remover agendamento!' };
+      const iterator = appointmentsRemove();
+      const expected = put({ type: Types.APPOINTMENTS_SAVE_ERROR, payload });
+
+      expect(iterator.next(payload).value).toEqual(expected);
+      expect(iterator.next().done).toBeTruthy();
+    });
   });
 
   describe('appointmentsSave', () => {
@@ -63,6 +89,19 @@ describe('SAGAS | Appointments', () => {
       const expected = put({ type: Types.APPOINTMENTS_CHECK_ERROR, payload });
 
       expect(iterator.next(payload).value).toEqual(expected);
+      expect(iterator.next().done).toBeTruthy();
+    });
+  });
+
+  describe('appointmentsFetch', () => {
+    test('Should dispatch action "appointmentsFetchRequest"', () => {
+      const iterator = appointmentsFetchWatcher();
+      const expected = takeLatest(
+        Types.APPOINTMENTS_FETCH_REQUEST,
+        appointmentsFetch,
+      );
+
+      expect(iterator.next({}).value).toEqual(expected);
       expect(iterator.next().done).toBeTruthy();
     });
   });

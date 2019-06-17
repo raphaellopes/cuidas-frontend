@@ -9,7 +9,12 @@ export const List = styled.ul`
 `;
 
 export const Item = styled.li`
-  border-bottom: 1px solid ${colors.dark}
+  border-bottom: 1px solid ${colors.dark};
+  padding-bottom: ${metrics.basePadding}px;
+
+  &:last-child {
+    border: none;
+  }
 `;
 
 export const SpinnerWrapper = styled.div`
