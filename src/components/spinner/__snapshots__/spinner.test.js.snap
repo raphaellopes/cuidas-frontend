@@ -1,0 +1,7 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Spinner /> Should render the component 1`] = `
+<i
+  className="icon fa fa-asterisk fa-spin sc-bdVaJa jToUlD"
+/>
+`;
