@@ -12,6 +12,7 @@ import Container from '../../components/container';
 import Form from '../../components/form';
 import Calendar from '../../components/calendar';
 import Toast from '../../components/toast';
+import Spinner from '../../components/spinner';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
@@ -135,6 +136,7 @@ class Appointments extends Component {
   // handlers
   handleCheckEmail = (e) => {
     e.preventDefault();
+    if (this.isUsersLoading) return;
 
     const { usersCheckRequest } = this.props;
 
@@ -148,6 +150,7 @@ class Appointments extends Component {
 
   handleSignIn = (e) => {
     e.preventDefault();
+    if (this.isUsersLoading) return;
 
     const { name, phone, email } = this.state;
     const { usersSaveRequest } = this.props;
@@ -168,6 +171,8 @@ class Appointments extends Component {
 
   handleAppointment = (e) => {
     e.preventDefault();
+
+    if (this.isAppointmentsLoading) return;
 
     const { date: selectedDate, time } = this.state;
     const { appointmentsSaveRequest, users } = this.props;
@@ -218,7 +223,7 @@ class Appointments extends Component {
             />
           </FormGroup>
           <PrimaryButton type="submit">
-            {this.isUsersLoading ? 'aguarde' : 'ok'}
+            {this.isUsersLoading ? <Spinner /> : 'ok'}
           </PrimaryButton>
         </Form>
       </Section>
@@ -253,7 +258,7 @@ class Appointments extends Component {
             />
           </FormGroup>
           <PrimaryButton type="submit">
-            {this.isUsersLoading ? 'aguarde' : 'ok'}
+            {this.isUsersLoading ? <Spinner /> : 'ok'}
           </PrimaryButton>
         </Form>
       </Section>
@@ -292,25 +297,27 @@ class Appointments extends Component {
             : 'Não há horários disponíveis'
           }
         </SecondaryTitle>
-        {hours.map((h) => {
-          const id = `hour-${h.split(':')[0]}`;
+        {this.isAppointmentsLoading
+          ? <Spinner color="primary" />
+          : hours.map((h) => {
+            const id = `hour-${h.split(':')[0]}`;
 
-          return (
-            <RadioGroup key={`radio-${id}`}>
-              <input
-                id={id}
-                type="radio"
-                name="hour"
-                value={h}
-                onChange={(e) => {
-                  this.time = e.target.value;
-                  this.error = null;
-                }}
-              />
-              <label htmlFor={id}>{h}</label>
-            </RadioGroup>
-          );
-        })}
+            return (
+              <RadioGroup key={`radio-${id}`}>
+                <input
+                  id={id}
+                  type="radio"
+                  name="hour"
+                  value={h}
+                  onChange={(e) => {
+                    this.time = e.target.value;
+                    this.error = null;
+                  }}
+                />
+                <label htmlFor={id}>{h}</label>
+              </RadioGroup>
+            );
+          })}
       </Fragment>
     );
   }
@@ -332,42 +339,49 @@ class Appointments extends Component {
     );
   }
 
-  renderAppointments() {
+  renderCalendarField() {
     const { date } = this.state;
-    const { appointments: { hours } } = this.props;
 
     const weekDays = calendarDate => (
       calendarDate.getDay() === 0
       || calendarDate.getDay() === 6
     );
 
+    return (
+      <FormGroup>
+        <Calendar
+          value={date}
+          onChange={(calendarDate) => {
+            this.setState({ date: calendarDate[0] });
+            this.checkHours();
+          }}
+          options={{
+            minDate: 'today',
+            dateFormat: 'd/m/Y',
+            disable: [
+              weekDays,
+            ],
+          }}
+        />
+      </FormGroup>
+    );
+  }
+
+  renderAppointments() {
+    const { appointments: { hours } } = this.props;
+
     return this.isStep('appointments') && (
       <Fragment>
         <Section>
           <Form onSubmit={this.handleAppointment} method="post">
             <SecondaryTitle>Agendar consulta</SecondaryTitle>
-            <FormGroup>
-              <Calendar
-                value={date}
-                onChange={(calendarDate) => {
-                  this.setState({ date: calendarDate[0] });
-                  this.checkHours();
-                }}
-                options={{
-                  minDate: 'today',
-                  dateFormat: 'd/m/Y',
-                  disable: [
-                    weekDays,
-                  ],
-                }}
-              />
-            </FormGroup>
+            {this.renderCalendarField()}
             {this.renderAvailableHours()}
-            {hours.length && (
+            {hours.length && !this.isAppointmentsLoading ? (
               <PrimaryButton type="submit">
-                {this.isAppointmentsLoading ? 'aguarde' : 'ok'}
+                ok
               </PrimaryButton>
-            )}
+            ) : null}
           </Form>
         </Section>
         {this.renderScheduledApoointments()}

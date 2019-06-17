@@ -4,8 +4,8 @@ import React from 'react';
 // locals
 import Icon from '../icon';
 
-const Spinner = () => (
-  <Icon name="asterisk fa-spin" />
+const Spinner = props => (
+  <Icon name="asterisk fa-spin" {...props} />
 );
 
 export default Spinner;
