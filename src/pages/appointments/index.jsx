@@ -73,6 +73,7 @@ class Appointments extends Component {
     if (appointments.status !== prevAppointments.status) {
       if (appointments.status === 'saved') {
         this.toast = 'Agendamento realizado com sucesso!';
+        this.time = '';
       }
     }
   }
@@ -125,6 +126,10 @@ class Appointments extends Component {
 
   set toast(toast) {
     this.setState({ toast });
+  }
+
+  set time(time) {
+    this.setState({ time });
   }
 
   // handlers
@@ -194,9 +199,11 @@ class Appointments extends Component {
     this.isError(field) || (this.error && !this.state[field])
   );
 
+  isStep = step => this.step === step;
+
   // renders
   renderEmailForm() {
-    return this.step === 'email' && (
+    return this.isStep('email') && (
       <Section>
         <Form onSubmit={this.handleCheckEmail} method="post">
           <FormGroup>
@@ -219,7 +226,7 @@ class Appointments extends Component {
   }
 
   renderSignInForm() {
-    return this.step === 'signIn' && (
+    return this.isStep('signIn') && (
       <Section>
         <Form onSubmit={this.handleSignIn} method="post">
           <SecondaryTitle>Complete seu cadastro</SecondaryTitle>
@@ -256,7 +263,7 @@ class Appointments extends Component {
   renderPersonalData() {
     const { users: { data: { name, email, phone } } } = this.props;
 
-    return this.step === 'appointments' && (
+    return this.isStep('appointments') && (
       <Section>
         <PersonalData>
           <SecondaryTitle>Dados pessoais</SecondaryTitle>
@@ -296,7 +303,7 @@ class Appointments extends Component {
                 name="hour"
                 value={h}
                 onChange={(e) => {
-                  this.setState({ time: e.target.value });
+                  this.time = e.target.value;
                   this.error = null;
                 }}
               />
@@ -334,7 +341,7 @@ class Appointments extends Component {
       || calendarDate.getDay() === 6
     );
 
-    return this.step === 'appointments' && (
+    return this.isStep('appointments') && (
       <Fragment>
         <Section>
           <Form onSubmit={this.handleAppointment} method="post">
@@ -387,16 +394,29 @@ class Appointments extends Component {
     );
   }
 
+  renderDescription() {
+    let text;
+
+    if (this.isStep('email')) {
+      text = 'Nessa área você poderá agendar uma consulta. Digite seu email no campo abaixo para iniciar.';
+    } else if (this.isStep('signIn')) {
+      text = 'Complete o cadastro para continuar';
+    } else if (this.isStep('appointments')) {
+      text = 'Agende sua consulta clicando selecionando uma data e horário';
+    }
+
+    return (
+      <Description>
+        {text}
+      </Description>
+    );
+  }
+
   render() {
     return (
       <Container>
         <PrimaryTitle>Agendamentos</PrimaryTitle>
-        <Description>
-          Nessa área você poderá agendar uma consulta. Digite seu email
-          no campo abaixo para iniciar. Se for a primeira consulta após
-          informar seu email, você deverá completar o cadastro. Não se preocupe,
-          pois será bem rápido :)
-        </Description>
+        {this.renderDescription()}
         {this.renderPersonalData()}
         {this.renderBoxError()}
         {this.renderEmailForm()}
