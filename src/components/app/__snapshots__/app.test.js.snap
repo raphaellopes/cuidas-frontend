@@ -28,7 +28,7 @@ exports[`<App /> Should render the component 1`] = `
           onClick={[Function]}
         >
           <i
-            className="fa fa-calendar sc-bxivhb kaPDeN"
+            className="icon fa fa-calendar sc-bxivhb kaPDeN"
           />
           Agendamentos
         </a>
@@ -38,7 +38,7 @@ exports[`<App /> Should render the component 1`] = `
           onClick={[Function]}
         >
           <i
-            className="fa fa-user-md sc-bxivhb kaPDeN"
+            className="icon fa fa-user-md sc-bxivhb kaPDeN"
           />
           Administração
         </a>

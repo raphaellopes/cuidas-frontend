@@ -4,6 +4,19 @@ const data = { user: 'U1', date: '2019-06-16 09:00' };
 
 describe('Redux Appointments', () => {
   describe('ACTIONS', () => {
+    describe('appointmentsStatus', () => {
+      test('Should create a status action', () => {
+        const payload = { status: 'changed' };
+        const expected = {
+          type: Types.APPOINTMENTS_STATUS,
+          payload,
+        };
+
+        const action = Creators.appointmentsStatus(payload.status);
+
+        expect(action).toEqual(expected);
+      });
+    });
     describe('appointmentsFetch', () => {
       test('Should create a success action', () => {
         const payload = {
@@ -122,7 +135,11 @@ describe('Redux Appointments', () => {
       const payload = { data };
       const action = { type: Types.APPOINTMENTS_SAVE_REQUEST, payload };
       const actual = reducer(initialState, action);
-      const expected = { ...initialState, loading: true };
+      const expected = {
+        ...initialState,
+        status: 'requesting',
+        loading: true,
+      };
 
       expect(actual).toEqual(expected);
     });
@@ -131,7 +148,12 @@ describe('Redux Appointments', () => {
       const payload = { error: 'some error' };
       const action = { type: Types.APPOINTMENTS_SAVE_ERROR, payload };
       const actual = reducer(initialState, action);
-      const expected = { ...initialState, loading: false, error: payload.error };
+      const expected = {
+        ...initialState,
+        loading: false,
+        status: 'error',
+        error: payload.error,
+      };
 
       expect(actual).toEqual(expected);
     });
@@ -146,6 +168,7 @@ describe('Redux Appointments', () => {
       const expected = {
         ...initialState,
         loading: false,
+        status: 'saved',
         data: [
           ...initialState.data,
           payload.data,
@@ -162,6 +185,7 @@ describe('Redux Appointments', () => {
       const expected = {
         ...initialState,
         loading: false,
+        status: 'checked',
         hours: ['09:00'],
       };
 
@@ -175,10 +199,23 @@ describe('Redux Appointments', () => {
       const expected = {
         ...initialState,
         loading: false,
+        status: 'fetched',
         data: [
           ...initialState.data,
           ...payload.data,
         ],
+      };
+
+      expect(actual).toEqual(expected);
+    });
+
+    test('Should handle APPOINTMENTS_STATUS', () => {
+      const payload = { status: 'changed' };
+      const action = { type: Types.APPOINTMENTS_STATUS, payload };
+      const actual = reducer(initialState, action);
+      const expected = {
+        ...initialState,
+        status: payload.status,
       };
 
       expect(actual).toEqual(expected);

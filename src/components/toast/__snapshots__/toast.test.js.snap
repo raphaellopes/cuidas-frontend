@@ -1,0 +1,31 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`<Toast /> Should dipatch onTimeout when the prop is set 1`] = `
+<div
+  className="sc-bwzfXH dlrwnW"
+>
+  <div
+    className="sc-htpNat kvZYzn"
+  >
+    <i
+      className="icon fa fa-check-circle sc-bdVaJa jToUlD"
+    />
+  </div>
+  My mesage
+</div>
+`;
+
+exports[`<Toast /> Should render the component 1`] = `
+<div
+  className="sc-bwzfXH dlrwnW"
+>
+  <div
+    className="sc-htpNat kvZYzn"
+  >
+    <i
+      className="icon fa fa-check-circle sc-bdVaJa jToUlD"
+    />
+  </div>
+  My mesage
+</div>
+`;

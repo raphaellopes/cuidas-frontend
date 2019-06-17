@@ -6,7 +6,7 @@ import PropTypes from 'prop-types';
 import { IconStyle } from './styles';
 
 const Icon = ({ name, ...props }) => (
-  <IconStyle className={`fa fa-${name}`} {...props} />
+  <IconStyle className={`icon fa fa-${name}`} {...props} />
 );
 
 Icon.propTypes = {

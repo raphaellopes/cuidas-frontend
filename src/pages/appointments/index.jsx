@@ -11,6 +11,7 @@ import { Creators as AppointmentsActions } from '../../store/ducks/appointments'
 import Container from '../../components/container';
 import Form from '../../components/form';
 import Calendar from '../../components/calendar';
+import Toast from '../../components/toast';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
@@ -50,12 +51,14 @@ class Appointments extends Component {
     time: '',
     error: null,
     step: 'email',
+    toast: '',
   };
 
   // lifecicle
   componentDidUpdate(prevProps) {
-    const { users: { data } } = this.props;
+    const { users: { data }, appointments } = this.props;
     const prevUsers = prevProps.users.data;
+    const prevAppointments = prevProps.appointments;
     console.log('componentDidUpdate', prevProps, this.props);
 
     if (data.email && data.email !== prevUsers.email) {
@@ -65,6 +68,12 @@ class Appointments extends Component {
     if (data.name && data.name !== prevUsers.name) {
       this.step = 'appointments';
       this.checkHours();
+    }
+
+    if (appointments.status !== prevAppointments.status) {
+      if (appointments.status === 'saved') {
+        this.toast = 'Agendamento realizado com sucesso!';
+      }
     }
   }
 
@@ -107,6 +116,15 @@ class Appointments extends Component {
   get isUsersLoading() {
     const { users } = this.props;
     return users.loading;
+  }
+
+  get isAppointmentsLoading() {
+    const { appointments } = this.props;
+    return appointments.loading;
+  }
+
+  set toast(toast) {
+    this.setState({ toast });
   }
 
   // handlers
@@ -155,11 +173,11 @@ class Appointments extends Component {
     } else {
       const date = moment(selectedDate).hour(hour).minute(min).second(0);
 
-      console.log('Submit signIn!', date.format('DD/MM/YYYY HH:mm'));
       appointmentsSaveRequest({
         user: users.data._id,
         date,
       });
+      console.log('Submit signIn!', date.format('DD/MM/YYYY HH:mm'));
     }
   };
 
@@ -338,7 +356,11 @@ class Appointments extends Component {
               />
             </FormGroup>
             {this.renderAvailableHours()}
-            {hours.length && <PrimaryButton type="submit">ok</PrimaryButton>}
+            {hours.length && (
+              <PrimaryButton type="submit">
+                {this.isAppointmentsLoading ? 'aguarde' : 'ok'}
+              </PrimaryButton>
+            )}
           </Form>
         </Section>
         {this.renderScheduledApoointments()}
@@ -351,6 +373,17 @@ class Appointments extends Component {
       <ErrorBox>
         Verifique as informações
       </ErrorBox>
+    );
+  }
+
+  renderToast() {
+    const { toast } = this.state;
+    const { appointments: { status } } = this.props;
+
+    return toast && status === 'saved' && (
+      <Toast onTimeout={() => { this.toast = ''; }}>
+        {toast}
+      </Toast>
     );
   }
 
@@ -369,6 +402,7 @@ class Appointments extends Component {
         {this.renderEmailForm()}
         {this.renderSignInForm()}
         {this.renderAppointments()}
+        {this.renderToast()}
       </Container>
     );
   }

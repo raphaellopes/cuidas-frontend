@@ -4,6 +4,7 @@ import moment from 'moment';
 // types
 const namespace = 'appointments';
 export const Types = {
+  APPOINTMENTS_STATUS: `${namespace}/status`,
   APPOINTMENTS_FETCH_SUCCESS: `${namespace}/fetch/success`,
   APPOINTMENTS_SAVE_REQUEST: `${namespace}/save/request`,
   APPOINTMENTS_SAVE_SUCCESS: `${namespace}/save/success`,
@@ -15,6 +16,7 @@ export const Types = {
 
 // reducers
 export const initialState = {
+  status: 'initial',
   loading: false,
   error: null,
   hours: [],
@@ -27,6 +29,7 @@ export default function appointments(state = initialState, action) {
     case Types.APPOINTMENTS_CHECK_REQUEST:
       return {
         ...state,
+        status: 'requesting',
         loading: true,
         error: null,
       };
@@ -35,6 +38,7 @@ export default function appointments(state = initialState, action) {
     case Types.APPOINTMENTS_CHECK_ERROR:
       return {
         ...state,
+        status: 'error',
         loading: false,
         error: action.payload.error,
       };
@@ -47,6 +51,7 @@ export default function appointments(state = initialState, action) {
 
       return {
         ...state,
+        status: 'saved',
         loading: false,
         error: null,
         hours,
@@ -62,6 +67,7 @@ export default function appointments(state = initialState, action) {
 
       return {
         ...state,
+        status: 'fetched',
         loading: false,
         error: null,
         data,
@@ -71,9 +77,16 @@ export default function appointments(state = initialState, action) {
     case Types.APPOINTMENTS_CHECK_SUCCESS:
       return {
         ...state,
+        status: 'checked',
         loading: false,
         error: null,
         hours: action.payload.data,
+      };
+
+    case Types.APPOINTMENTS_STATUS:
+      return {
+        ...state,
+        status: action.payload.status,
       };
 
     default:
@@ -83,6 +96,10 @@ export default function appointments(state = initialState, action) {
 
 // actions
 export const Creators = {
+  appointmentsStatus: status => ({
+    type: Types.APPOINTMENTS_STATUS,
+    payload: { status },
+  }),
   appointmentsFetchSuccess: data => ({
     type: Types.APPOINTMENTS_FETCH_SUCCESS,
     payload: { data },
