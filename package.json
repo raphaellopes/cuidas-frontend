@@ -18,8 +18,8 @@
     "styled-components": "^4.3.1"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "react-scripts build",
+    "start": "react-scripts start REACT_APP_API_URL='http://localhost:3001'",
+    "build": "react-scripts build REACT_APP_API_URL='https://cuidas.herokuapp.com'",
     "test": "react-scripts test --coverage  --watchAll=false --collectCoverageFrom=./src/{components,store}/**/*.{js,jsx} --verbose",
     "test:update": "yarn test --updateSnapshot",
     "test:watch": "react-scripts test",
