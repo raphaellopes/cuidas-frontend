@@ -18,7 +18,7 @@
     "styled-components": "^4.3.1"
   },
   "scripts": {
-    "start": "react-scripts start'",
+    "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test --coverage  --watchAll=false --collectCoverageFrom=./src/{components,store}/**/*.{js,jsx} --verbose",
     "test:update": "yarn test --updateSnapshot",
