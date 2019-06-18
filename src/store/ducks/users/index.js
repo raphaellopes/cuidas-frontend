@@ -2,12 +2,11 @@
 const namespace = 'users';
 export const Types = {
   USERS_CLEAR: `${namespace}/clear`,
+  USERS_ERROR: `${namespace}/error`,
   USERS_CHECK_REQUEST: `${namespace}/check/request`,
   USERS_CHECK_SUCCESS: `${namespace}/check/success`,
-  USERS_CHECK_ERROR: `${namespace}/check/error`,
   USERS_SAVE_REQUEST: `${namespace}/save/request`,
   USERS_SAVE_SUCCESS: `${namespace}/save/success`,
-  USERS_SAVE_ERROR: `${namespace}/save/error`,
 };
 
 // reducers
@@ -27,8 +26,7 @@ export default function users(state = initialState, action) {
         error: null,
       };
 
-    case Types.USERS_CHECK_ERROR:
-    case Types.USERS_SAVE_ERROR:
+    case Types.USERS_ERROR:
       return {
         ...state,
         loading: false,
@@ -57,6 +55,10 @@ export const Creators = {
   usersClear: () => ({
     type: Types.USERS_CLEAR,
   }),
+  usersError: error => ({
+    type: Types.USERS_ERROR,
+    payload: { error },
+  }),
   usersCheckRequest: email => ({
     type: Types.USERS_CHECK_REQUEST,
     payload: { email },
@@ -65,10 +67,6 @@ export const Creators = {
     type: Types.USERS_CHECK_SUCCESS,
     payload: { data },
   }),
-  usersCheckError: error => ({
-    type: Types.USERS_CHECK_ERROR,
-    payload: { error },
-  }),
   usersSaveRequest: data => ({
     type: Types.USERS_SAVE_REQUEST,
     payload: { data },
@@ -76,9 +74,5 @@ export const Creators = {
   usersSaveSucccess: data => ({
     type: Types.USERS_SAVE_SUCCESS,
     payload: { data },
-  }),
-  usersSaveError: error => ({
-    type: Types.USERS_SAVE_ERROR,
-    payload: { error },
   }),
 };

@@ -14,7 +14,7 @@ export function* appointmentsRemove(action) {
     yield call(api.delete, `schedule/${data}`);
     yield put(Creators.appointmentsRemoveSuccess(data));
   } catch (err) {
-    yield put(Creators.appointmentsSaveError('Erro ao remover agendamento!'));
+    yield put(Creators.appointmentsError('Erro ao remover agendamento!'));
   }
 }
 
@@ -24,7 +24,7 @@ export function* appointmentsFetch() {
 
     yield put(Creators.appointmentsFetchSuccess(data));
   } catch (err) {
-    yield put(Creators.appointmentsSaveError('Erro ao buscar agendamentos!'));
+    yield put(Creators.appointmentsError('Erro ao buscar agendamentos!'));
   }
 }
 
@@ -36,7 +36,7 @@ export function* appointmentsSave(action) {
 
     yield put(Creators.appointmentsSaveSucccess(data));
   } catch (err) {
-    yield put(Creators.appointmentsSaveError('Erro ao salvar agendamento!'));
+    yield put(Creators.appointmentsError('Erro ao salvar agendamento!'));
   }
 }
 
@@ -50,7 +50,7 @@ export function* appointmentsCheck(action) {
 
     yield put(Creators.appointmentsCheckSucccess(data));
   } catch (err) {
-    yield put(Creators.appointmentsCheckError('Erro ao buscar horários!'));
+    yield put(Creators.appointmentsError('Erro ao buscar horários!'));
   }
 }
 

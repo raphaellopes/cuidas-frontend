@@ -12,6 +12,20 @@ describe('Redux Users', () => {
       expect(action).toEqual(expected);
     });
 
+    test('Should create an error action', () => {
+      const payload = {
+        error: 'some error',
+      };
+      const expected = {
+        type: Types.USERS_ERROR,
+        payload,
+      };
+
+      const action = Creators.usersError(payload.error);
+
+      expect(action).toEqual(expected);
+    });
+
     describe('usersCheck', () => {
       test('Should create a request action', () => {
         const payload = { email: 'test@email' };
@@ -40,20 +54,6 @@ describe('Redux Users', () => {
         };
 
         const action = Creators.usersCheckSucccess(payload.data);
-
-        expect(action).toEqual(expected);
-      });
-
-      test('Should create an error action', () => {
-        const payload = {
-          error: 'some error',
-        };
-        const expected = {
-          type: Types.USERS_CHECK_ERROR,
-          payload,
-        };
-
-        const action = Creators.usersCheckError(payload.error);
 
         expect(action).toEqual(expected);
       });
@@ -89,20 +89,6 @@ describe('Redux Users', () => {
 
           expect(action).toEqual(expected);
         });
-
-        test('Should create an error action', () => {
-          const payload = {
-            error: 'some error',
-          };
-          const expected = {
-            type: Types.USERS_SAVE_ERROR,
-            payload,
-          };
-
-          const action = Creators.usersSaveError(payload.error);
-
-          expect(action).toEqual(expected);
-        });
       });
     });
   });
@@ -119,20 +105,20 @@ describe('Redux Users', () => {
       expect(data).toEqual(initialState);
     });
 
+    test('Should handle USERS_ERROR', () => {
+      const payload = { error: 'some error' };
+      const action = { type: Types.USERS_ERROR, payload };
+      const data = reducer(initialState, action);
+      const expected = { ...initialState, loading: false, error: payload.error };
+
+      expect(data).toEqual(expected);
+    });
+
     test('Should handle USERS_CHECK_REQUEST', () => {
       const payload = { email: 'test@email' };
       const action = { type: Types.USERS_CHECK_REQUEST, payload };
       const data = reducer(initialState, action);
       const expected = { ...initialState, loading: true };
-
-      expect(data).toEqual(expected);
-    });
-
-    test('Should handle USERS_CHECK_ERROR', () => {
-      const payload = { error: 'some error' };
-      const action = { type: Types.USERS_CHECK_ERROR, payload };
-      const data = reducer(initialState, action);
-      const expected = { ...initialState, loading: false, error: payload.error };
 
       expect(data).toEqual(expected);
     });

@@ -24,7 +24,7 @@ export function* usersCheck(action) {
       yield put(Creators.usersCheckSucccess({ email }));
     }
   } catch (err) {
-    yield put(Creators.usersCheckError('Erro ao tentar encontrar o usuário!'));
+    yield put(Creators.usersError('Erro ao tentar encontrar o usuário!'));
   }
 }
 
@@ -36,7 +36,7 @@ export function* usersSave(action) {
 
     yield put(Creators.usersSaveSucccess(data));
   } catch (err) {
-    yield put(Creators.usersSaveError('Erro ao salvar usuário!'));
+    yield put(Creators.usersError('Erro ao salvar usuário!'));
   }
 }
 

@@ -13,6 +13,15 @@ import {
 } from './index';
 import { Types } from '../../ducks/appointments';
 
+const testError = (error, method) => {
+  const payload = { error };
+  const iterator = method();
+  const expected = put({ type: Types.APPOINTMENTS_ERROR, payload });
+
+  expect(iterator.next(payload).value).toEqual(expected);
+  expect(iterator.next().done).toBeTruthy();
+};
+
 describe('SAGAS | Appointments', () => {
   test('Should all "appointmentsWatcher"', () => {
     const iterator = appointmentsWatcher();
@@ -39,13 +48,8 @@ describe('SAGAS | Appointments', () => {
       expect(iterator.next().done).toBeTruthy();
     });
 
-    test('Should dispatch action "appointmentsSaveError"', () => {
-      const payload = { error: 'Erro ao remover agendamento!' };
-      const iterator = appointmentsRemove();
-      const expected = put({ type: Types.APPOINTMENTS_SAVE_ERROR, payload });
-
-      expect(iterator.next(payload).value).toEqual(expected);
-      expect(iterator.next().done).toBeTruthy();
+    test('Should dispatch action "appointmentsError"', () => {
+      testError('Erro ao remover agendamento!', appointmentsRemove);
     });
   });
 
@@ -61,13 +65,8 @@ describe('SAGAS | Appointments', () => {
       expect(iterator.next().done).toBeTruthy();
     });
 
-    test('Should dispatch action "appointmentsSaveError"', () => {
-      const payload = { error: 'Erro ao salvar agendamento!' };
-      const iterator = appointmentsSave();
-      const expected = put({ type: Types.APPOINTMENTS_SAVE_ERROR, payload });
-
-      expect(iterator.next(payload).value).toEqual(expected);
-      expect(iterator.next().done).toBeTruthy();
+    test('Should dispatch action "appointmentsError"', () => {
+      testError('Erro ao salvar agendamento!', appointmentsSave);
     });
   });
 
@@ -84,12 +83,7 @@ describe('SAGAS | Appointments', () => {
     });
 
     test('Should dispatch action "appointmentsCheckError"', () => {
-      const payload = { error: 'Erro ao buscar horários!' };
-      const iterator = appointmentsCheck();
-      const expected = put({ type: Types.APPOINTMENTS_CHECK_ERROR, payload });
-
-      expect(iterator.next(payload).value).toEqual(expected);
-      expect(iterator.next().done).toBeTruthy();
+      testError('Erro ao buscar horários!', appointmentsCheck);
     });
   });
 

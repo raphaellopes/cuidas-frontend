@@ -18,6 +18,20 @@ describe('Redux Appointments', () => {
       });
     });
 
+    test('Should create an error action', () => {
+      const payload = {
+        error: 'some error',
+      };
+      const expected = {
+        type: Types.APPOINTMENTS_ERROR,
+        payload,
+      };
+
+      const action = Creators.appointmentsError(payload.error);
+
+      expect(action).toEqual(expected);
+    });
+
     describe('appointmentsFetch', () => {
       test('Should create a request action', () => {
         const expected = {
@@ -76,20 +90,6 @@ describe('Redux Appointments', () => {
 
         expect(action).toEqual(expected);
       });
-
-      test('Should create an error action', () => {
-        const payload = {
-          error: 'some error',
-        };
-        const expected = {
-          type: Types.APPOINTMENTS_SAVE_ERROR,
-          payload,
-        };
-
-        const action = Creators.appointmentsSaveError(payload.error);
-
-        expect(action).toEqual(expected);
-      });
     });
 
     describe('appointmentsCheck', () => {
@@ -117,20 +117,6 @@ describe('Redux Appointments', () => {
         };
 
         const action = Creators.appointmentsCheckSucccess(payload.data);
-
-        expect(action).toEqual(expected);
-      });
-
-      test('Should create an error action', () => {
-        const payload = {
-          error: 'some error',
-        };
-        const expected = {
-          type: Types.APPOINTMENTS_CHECK_ERROR,
-          payload,
-        };
-
-        const action = Creators.appointmentsCheckError(payload.error);
 
         expect(action).toEqual(expected);
       });
@@ -178,20 +164,6 @@ describe('Redux Appointments', () => {
         ...initialState,
         status: 'requesting',
         loading: true,
-      };
-
-      expect(actual).toEqual(expected);
-    });
-
-    test('Should handle APPOINTMENTS_SAVE_ERROR', () => {
-      const payload = { error: 'some error' };
-      const action = { type: Types.APPOINTMENTS_SAVE_ERROR, payload };
-      const actual = reducer(initialState, action);
-      const expected = {
-        ...initialState,
-        loading: false,
-        status: 'error',
-        error: payload.error,
       };
 
       expect(actual).toEqual(expected);

@@ -12,6 +12,15 @@ import { Types } from '../../ducks/users';
 
 const email = 'test@test';
 
+const testError = (error, method) => {
+  const payload = { error };
+  const iterator = method();
+  const expected = put({ type: Types.USERS_ERROR, payload });
+
+  expect(iterator.next(payload).value).toEqual(expected);
+  expect(iterator.next().done).toBeTruthy();
+};
+
 describe('SAGAS | Users', () => {
   test('Should all "usersWatcher"', () => {
     const iterator = usersWatcher();
@@ -33,13 +42,8 @@ describe('SAGAS | Users', () => {
       expect(iterator.next().done).toBeTruthy();
     });
 
-    test('Should dispatch action "usersCheckError"', () => {
-      const payload = { error: 'Erro ao tentar encontrar o usuário!' };
-      const iterator = usersCheck();
-      const expected = put({ type: Types.USERS_CHECK_ERROR, payload });
-
-      expect(iterator.next(payload).value).toEqual(expected);
-      expect(iterator.next().done).toBeTruthy();
+    test('Should dispatch an error action on "usersCheck"', () => {
+      testError('Erro ao tentar encontrar o usuário!', usersCheck);
     });
 
     test('Should make api call', () => {
@@ -60,21 +64,8 @@ describe('SAGAS | Users', () => {
       expect(iterator.next().done).toBeTruthy();
     });
 
-    test('Should dispatch action "usersSaveError"', () => {
-      const payload = { error: 'Erro ao salvar usuário!' };
-      const iterator = usersSave();
-      const expected = put({ type: Types.USERS_SAVE_ERROR, payload });
-
-      expect(iterator.next(payload).value).toEqual(expected);
-      expect(iterator.next().done).toBeTruthy();
+    test('Should dispatch an error action on "usersSave"', () => {
+      testError('Erro ao salvar usuário!', usersSave);
     });
-
-    // test('Should make api call', () => {
-    // const action = { payload: { email } };
-    // const iterator = usersCheck(action);
-    // const expected = call(api.get, 'user/exists', { params: { email } });
-
-    // expect(iterator.next(email).value).toEqual(expected);
-    // });
   });
 });
