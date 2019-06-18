@@ -219,21 +219,27 @@ class Appointments extends Component {
   isStep = step => this.step === step;
 
   // renders
+  renderFormField(field, label, type) {
+    return (
+      <FormGroup>
+        <PrimaryInput
+          onChange={(e) => {
+            this.error = null;
+            this[field] = e.target.value;
+          }}
+          error={this.checkField(field)}
+          placeholder={`Digite seu ${label} *`}
+          type={type}
+        />
+      </FormGroup>
+    );
+  }
+
   renderEmailForm() {
     return this.isStep('email') && (
       <Section>
         <Form onSubmit={this.handleCheckEmail} method="post">
-          <FormGroup>
-            <PrimaryInput
-              onChange={(e) => {
-                this.error = null;
-                this.email = e.target.value;
-              }}
-              error={this.checkField('email')}
-              placeholder="Digite seu email *"
-              type="email"
-            />
-          </FormGroup>
+          {this.renderFormField('email', 'email', 'email')}
           <PrimaryButton type="submit">
             {this.isUsersLoading ? <Spinner /> : 'ok'}
           </PrimaryButton>
@@ -247,28 +253,8 @@ class Appointments extends Component {
       <Section>
         <Form onSubmit={this.handleSignIn} method="post">
           <SecondaryTitle>Complete seu cadastro</SecondaryTitle>
-          <FormGroup>
-            <PrimaryInput
-              onChange={(e) => {
-                this.error = null;
-                this.name = e.target.value;
-              }}
-              error={this.checkField('name')}
-              placeholder="Digite seu nome *"
-              type="text"
-            />
-          </FormGroup>
-          <FormGroup>
-            <PrimaryInput
-              onChange={(e) => {
-                this.error = null;
-                this.phone = e.target.value;
-              }}
-              error={this.checkField('phone')}
-              placeholder="Digite seu telefone *"
-              type="number"
-            />
-          </FormGroup>
+          {this.renderFormField('name', 'nome', 'text')}
+          {this.renderFormField('phone', 'telefone', 'number')}
           <PrimaryButton type="submit">
             {this.isUsersLoading ? <Spinner /> : 'ok'}
           </PrimaryButton>
