@@ -4,6 +4,7 @@ O objetivo do teste foi criar um sistema de agendamento de consultas. O link par
 o resultado final está no link abaixo:
 
 - [Demo](https://cuidas-frontend.herokuapp.com/)
+- [Repositório do backend](https://github.com/raphaellopes/cuidas-backend)
 
 O sistema consiste em uma página inicial com dois links abertos, **agendamentos** e 
 **administração**. 
@@ -63,3 +64,10 @@ Par rodar os testes em modo de desenvolvimento com watch ativado.
 
 Atualiza os snapshots criados para os componentes testados. Esse comando deve ser executado
 quando um stateless componente, que possui testes, tem seu estilo alterado. 
+
+
+## Observações
+
+- Não criei uma tela de erro 404 para rotas inválidas
+- Não apliquei uma máscara no campo telefone
+- Não configurei manifest, service-worker e favicon
