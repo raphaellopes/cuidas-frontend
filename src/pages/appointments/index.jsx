@@ -13,11 +13,12 @@ import Form from '../../components/form';
 import Calendar from '../../components/calendar';
 import Toast from '../../components/toast';
 import Spinner from '../../components/spinner';
+import BoxError from '../../components/box-error';
 import { PrimaryButton } from '../../components/buttons';
 import { PrimaryInput } from '../../components/inputs';
 import { PrimaryTitle, SecondaryTitle } from '../../components/titles';
 import {
-  ErrorBox, RadioGroup, FormGroup, Description, Section, PersonalData,
+  RadioGroup, FormGroup, Description, Section, PersonalData,
 } from './styles';
 
 class Appointments extends Component {
@@ -109,7 +110,8 @@ class Appointments extends Component {
 
   get error() {
     const { error } = this.state;
-    return error;
+    const { users, appointments } = this.props;
+    return error || users.error || appointments.error;
   }
 
   get step() {
@@ -149,7 +151,7 @@ class Appointments extends Component {
     if (this.email) {
       usersCheckRequest(this.email);
     } else {
-      this.error = 'email';
+      this.error = 'Digite um email';
     }
   }
 
@@ -159,14 +161,21 @@ class Appointments extends Component {
 
     const { name, phone, email } = this.state;
     const { usersSaveRequest } = this.props;
+    let errorMessage = '';
 
     if (!name) {
-      this.error = 'name';
+      errorMessage = 'Verifique o campo nome';
     }
 
     if (!phone) {
-      this.error = 'phone';
+      errorMessage = 'Verifique o campo telefone';
     }
+
+    if (!name && !phone) {
+      errorMessage = 'Verifique os campos';
+    }
+
+    this.error = errorMessage;
 
     if (name && phone) {
       usersSaveRequest({ name, phone, email });
@@ -183,7 +192,7 @@ class Appointments extends Component {
     const [hour, min] = time.split(':');
 
     if (!time) {
-      this.error = 'time';
+      this.error = 'Selecione um horário';
     } else {
       const date = moment(selectedDate).hour(hour).minute(min).second(0);
 
@@ -394,9 +403,9 @@ class Appointments extends Component {
 
   renderBoxError() {
     return this.error && (
-      <ErrorBox>
-        Verifique as informações
-      </ErrorBox>
+      <BoxError>
+        {this.error}
+      </BoxError>
     );
   }
 

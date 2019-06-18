@@ -39,10 +39,3 @@ export const PersonalData = styled.div`
   border-bottom: 1px solid ${colors.light};
   padding-bottom: ${metrics.basePadding}px;
 `;
-
-export const ErrorBox = styled.div`
-  background-color: ${colors.danger};
-  color: ${colors.lightest};
-  text-align: center;
-  padding: ${metrics.basePadding / 2}px;
-`;

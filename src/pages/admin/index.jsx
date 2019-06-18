@@ -11,6 +11,7 @@ import Container from '../../components/container';
 import Spinner from '../../components/spinner';
 import Icon from '../../components/icon';
 import Toast from '../../components/toast';
+import BoxError from '../../components/box-error';
 import { PrimaryTitle } from '../../components/titles';
 import { SecondaryButton } from '../../components/buttons';
 
@@ -69,6 +70,12 @@ class Admin extends Component {
     this.setState({ toast });
   }
 
+  get error() {
+    const { appointments } = this.props;
+
+    return appointments.error;
+  }
+
   removeAppointment = (id) => {
     const { appointmentsRemoveRequest } = this.props;
     this.appointmentsSelected = id;
@@ -76,6 +83,14 @@ class Admin extends Component {
   }
 
   // renders
+  renderBoxError() {
+    return this.error && (
+      <BoxError>
+        {this.error}
+      </BoxError>
+    );
+  }
+
   renderToast() {
     const { toast } = this.state;
     const { appointments: { status } } = this.props;
@@ -130,7 +145,7 @@ class Admin extends Component {
       <List>
         {data.length
           ? data.map(item => this.renderItem(item))
-          : !this.loading && (<p>Não existem consultas agendadas</p>)
+          : !this.loading && !this.error && (<p>Não existem consultas agendadas</p>)
         }
       </List>
     );
@@ -140,6 +155,7 @@ class Admin extends Component {
     return (
       <Container>
         <PrimaryTitle>Administração</PrimaryTitle>
+        {this.renderBoxError()}
         {this.renderSpinner()}
         {this.renderList()}
         {this.renderToast()}

@@ -7,11 +7,15 @@ exports[`<App /> Should render the component 1`] = `
   <header
     className="sc-htpNat dplynj"
   >
-    <img
-      alt="Cuidas"
-      className="sc-bdVaJa katCQl"
-      src="logo.svg"
-    />
+    <a
+      href="/"
+    >
+      <img
+        alt="Cuidas"
+        className="sc-bdVaJa katCQl"
+        src="logo.svg"
+      />
+    </a>
   </header>
   <div>
     <div

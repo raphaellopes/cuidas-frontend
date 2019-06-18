@@ -1,6 +1,5 @@
 // vendors
 import React from 'react';
-import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 // locals
@@ -10,9 +9,9 @@ import { ContainerStyle, Header } from './styles';
 const Container = ({ children }) => (
   <ContainerStyle>
     <Header>
-      <Link to="/">
+      <a href="/">
         <Logo />
-      </Link>
+      </a>
     </Header>
     <div>{children}</div>
   </ContainerStyle>
