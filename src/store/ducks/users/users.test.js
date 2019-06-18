@@ -2,6 +2,16 @@ import reducer, { Creators, Types, initialState } from './index';
 
 describe('Redux Users', () => {
   describe('ACTIONS', () => {
+    test('Should create e clear action', () => {
+      const expected = {
+        type: Types.USERS_CLEAR,
+      };
+
+      const action = Creators.usersClear();
+
+      expect(action).toEqual(expected);
+    });
+
     describe('usersCheck', () => {
       test('Should create a request action', () => {
         const payload = { email: 'test@email' };
@@ -100,6 +110,13 @@ describe('Redux Users', () => {
   describe('REDUCERS', () => {
     test('Should return the initial state', () => {
       expect(reducer(undefined, {})).toEqual(initialState);
+    });
+
+    test('Should handle USERS_CLEAR', () => {
+      const action = { type: Types.USERS_CLEAR };
+      const data = reducer(initialState, action);
+
+      expect(data).toEqual(initialState);
     });
 
     test('Should handle USERS_CHECK_REQUEST', () => {

@@ -34,6 +34,7 @@ class Appointments extends Component {
     }).isRequired,
     usersCheckRequest: PropTypes.func.isRequired,
     usersSaveRequest: PropTypes.func.isRequired,
+    usersClear: PropTypes.func.isRequired,
 
     appointments: PropTypes.shape({
       loading: PropTypes.bool.isRequired,
@@ -60,7 +61,6 @@ class Appointments extends Component {
     const { users: { data }, appointments } = this.props;
     const prevUsers = prevProps.users.data;
     const prevAppointments = prevProps.appointments;
-    console.log('componentDidUpdate', prevProps, this.props);
 
     if (data.email && data.email !== prevUsers.email) {
       this.step = 'signIn';
@@ -77,6 +77,12 @@ class Appointments extends Component {
         this.time = '';
       }
     }
+  }
+
+  componentWillUnmount() {
+    const { usersClear } = this.props;
+
+    usersClear();
   }
 
   // getters and setters
@@ -141,7 +147,6 @@ class Appointments extends Component {
     const { usersCheckRequest } = this.props;
 
     if (this.email) {
-      console.log('Submit check email!', this.email);
       usersCheckRequest(this.email);
     } else {
       this.error = 'email';
@@ -164,7 +169,6 @@ class Appointments extends Component {
     }
 
     if (name && phone) {
-      console.log('Submit signIn!', { name, phone, email });
       usersSaveRequest({ name, phone, email });
     }
   }
@@ -187,7 +191,6 @@ class Appointments extends Component {
         user: users.data._id,
         date,
       });
-      console.log('Submit signIn!', date.format('DD/MM/YYYY HH:mm'));
     }
   };
 

@@ -41,7 +41,6 @@ class Admin extends Component {
   componentDidUpdate(prevProps) {
     const { appointments } = this.props;
     const prevAppointments = prevProps.appointments;
-    console.log('componentDidUpdate', prevProps, this.props);
 
     if (appointments.status !== prevAppointments.status) {
       if (appointments.status === 'removed') {

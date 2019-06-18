@@ -1,6 +1,7 @@
 // types
 const namespace = 'users';
 export const Types = {
+  USERS_CLEAR: `${namespace}/clear`,
   USERS_CHECK_REQUEST: `${namespace}/check/request`,
   USERS_CHECK_SUCCESS: `${namespace}/check/success`,
   USERS_CHECK_ERROR: `${namespace}/check/error`,
@@ -43,6 +44,9 @@ export default function users(state = initialState, action) {
         data: action.payload.data,
       };
 
+    case Types.USERS_CLEAR:
+      return initialState;
+
     default:
       return state;
   }
@@ -50,6 +54,9 @@ export default function users(state = initialState, action) {
 
 // actions
 export const Creators = {
+  usersClear: () => ({
+    type: Types.USERS_CLEAR,
+  }),
   usersCheckRequest: email => ({
     type: Types.USERS_CHECK_REQUEST,
     payload: { email },
