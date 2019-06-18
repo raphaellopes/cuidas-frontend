@@ -17,7 +17,7 @@ const composer = process.env.NODE_ENV === 'development'
     applyMiddleware(...middlewares),
     console.tron.createEnhancer(),
   )
-  : applyMiddleware(...[]);
+  : applyMiddleware(...middlewares);
 
 const store = createStore(reducers, composer);
 
