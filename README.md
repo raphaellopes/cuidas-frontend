@@ -63,3 +63,10 @@ Par rodar os testes em modo de desenvolvimento com watch ativado.
 
 Atualiza os snapshots criados para os componentes testados. Esse comando deve ser executado
 quando um stateless componente, que possui testes, tem seu estilo alterado. 
+
+
+## Observações
+
+- Não criei uma tela de erro 404 para rotas inválidas
+- Não apliquei uma máscara no campo telefone
+- Não configurei manifest, service-worker e favicon
